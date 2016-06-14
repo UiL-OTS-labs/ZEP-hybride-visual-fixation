@@ -52,6 +52,6 @@ One can get output by running `zepdbextract` in the experiment directory. This g
 - Create a participant and enter participant data via the control window.
 - Press `start`.
 
-[beexy-zep-download]: <https://github.com/joemccann/dillinger>
+[beexy-zep-download]: <http://beexy.org/zep/wiki/doku.php?id=download>
 [maartje]: <http://www.uu.nl/staff/MdeKlerk/0>
 [chris]: <http://www.uu.nl/staff/CPAvanRun>
