@@ -1,0 +1,27 @@
+record GeneralOutput
+{
+	real configured_habituation_threshold;
+	int habituated_at_trial;
+
+	real configured_attention_loss_threshold;
+	dur total_look_time_pre;
+	dur total_look_time_post;
+
+	bool attention_kept;
+	bool habituated;
+	bool include;
+}
+
+GeneralOutput general_output;
+
+GeneralOutput[..] general_outputs;
+
+void save_general_output()
+{
+	general_outputs.size = general_outputs.size + 1;
+	general_outputs[general_outputs.size-1] = general_output;
+
+	string fn = expdb.experiment.session.create_table("inclusion_variable_summary", 1);
+
+	general_outputs.append(fn, "Summary of inclusion criterion");
+}

@@ -1,0 +1,216 @@
+import std_sound_output_device;
+import stimuli;
+
+Page attention_test_page 
+{
+    int image_counter;
+
+	init()
+    {
+        fill_pattern_color = TEST_PAGE_COLOR;
+    }
+
+    HorGridLayout layout 
+    {
+    	
+    	CanvasGadget[..] canvi;
+    	ImageShape[..] images;
+
+    	CanvasGadget canvas_0_0 { ImageShape image {} }
+    	CanvasGadget canvas_0_1 {}
+    	CanvasGadget canvas_0_2 { ImageShape image {} }
+    	CanvasGadget canvas_1_0 {}
+    	CanvasGadget canvas_1_1 { ImageShape image {} }
+    	CanvasGadget canvas_1_2 {}
+    	CanvasGadget canvas_2_0 { ImageShape image {} }
+    	CanvasGadget canvas_2_1 {}
+    	CanvasGadget canvas_2_2 { ImageShape image {} }
+
+    	init()
+    	{	
+
+    		images.size = 5;
+    		images[0] = canvas_0_0.image;
+    		images[1] = canvas_0_2.image;
+    		images[2] = canvas_1_1.image;
+    		images[3] = canvas_2_0.image;
+    		images[4] = canvas_2_2.image;
+
+
+    		canvi.size = 9;
+    		canvi[0] = canvas_0_0;
+    		canvi[1] = canvas_0_1;
+    		canvi[2] = canvas_0_2;
+    		canvi[3] = canvas_1_0;
+    		canvi[4] = canvas_1_1;
+    		canvi[5] = canvas_1_2;
+    		canvi[6] = canvas_2_0;
+    		canvi[7] = canvas_2_1;
+    		canvi[8] = canvas_2_2;
+
+    		wrap_count = 3;
+            options = LAYOUT_STRETCH_ITEMS;
+    	}
+
+        on_event:start()
+        {
+            this.setup_canvi();
+        }
+
+    	on_event:finish()
+    	{
+            start_layout(event_time);
+    	}
+
+    	void resize_canvas(CanvasGadget canvas)
+    	{	
+			canvas.width  = int(0.33*test_window1.width);
+			canvas.height = int(0.33*test_window1.height);
+		}
+
+        void center_canvas(CanvasGadget canvas)
+        {
+            canvas.offset_x = floor(canvas.width / 2);
+            canvas.offset_y = floor(canvas.height/ 2);
+        }
+
+    	time start_layout(time t)
+    	{  
+            this.set_targets();
+    		this.start(event_time+DRAW_TIME, PICTURE_SHOW_DURATION-DRAW_TIME);
+    		return this.expected_start_time;
+    	}
+
+    	void setup_canvi()
+    	{
+    		int index;
+            while(index < canvi.size)
+            {
+                resize_canvas(canvi[index]);
+                center_canvas(canvi[index]);
+                index++;
+            }
+    	}
+
+        void reset()
+        {
+            int index = 0;
+            while(index < images.size)
+            {
+                images[index].image = "";
+                index++;
+            }
+        }
+
+        void set_targets()
+        {
+            string[] image_filenames = attention_test_image_filenames[image_counter % attention_test_image_filenames.size];
+            image_counter++;
+            int index;
+            while (index < images.size)
+            {
+                images[index].image = stimuli_dir() + "images/" + image_filenames[index];
+                images[index].is_visible=true;
+                images[index].offset_x = -floor(images[index].actual_width/2);
+                images[index].offset_y = -floor(images[index].actual_height/2);
+                index++;
+            }
+        }
+    }
+
+    Timer overall_timer
+    {
+    	on_event:expire()
+    	{
+            control.stop_clock(event_time);
+    		done(CONTINUE);
+    	}
+    }
+
+    SoundChain audio
+	{
+	    BeepGenerator beep {}
+	 
+	    SoundPlayback playback {}
+	   
+        on_event:start()
+        {
+            control.show_speaker_icon(FRONT_SIDE);
+        }
+
+	    on_event:finish()
+	    {
+            control.hide_speaker_icon(FRONT_SIDE);
+	        this.play(event_time + (BEEP_ONSET_INTERVAL - BEEP_DURATION) );
+	    }
+
+	    time play(time t)
+	    {
+			this.playback.device        = sound_output_device;
+			this.beep.frequency         = BEEP_FREQUENCY;
+			this.beep.content_duration  = BEEP_DURATION;
+			this.beep.fade_in_duration  = 5ms;
+			this.beep.fade_out_duration = 5ms;
+
+			this.start(t);
+			return audio.expected_start_time;
+	    }
+
+        
+	}
+ 
+
+    // Aborts any ongoing activity on this page and signals the initiator
+    // of the trial that we're done.
+    void done(int msgid)
+    {
+        // Just in case; abort presentation if still active.
+       	layout.abort();
+ 		audio.abort();
+
+        signal_target(msgid);   // tell caller we're done
+        target = null;
+
+        control.clear_status();
+    }
+ 
+
+    // Performs preparatory work required before using this page.
+    void setup()
+    {
+        cleanup();
+        experiment.setup_response_box();
+        fill_pattern_color = TEST_PAGE_COLOR;
+        //attention_test_image_filenames.shuffle(0, -1);
+    }
+ 
+ 
+    // Performs cleaning up if necessary.
+    void cleanup()
+    {
+        image_counter = 0;
+        layout.reset();
+    }
+ 
+ 
+    // Starts a trial.
+    void action(Object caller, time tref)
+    {
+        // Timing for the test:
+        tref = test_window1.show_test_page(this, tref + 100ms);
+        tref = layout.start_layout(tref);
+        tref = audio.play(tref);
+
+        control.begin_clock();
+        control.release_clock(tref);
+        control.start_clock(tref);
+
+        control.set_status("Attention Test");
+        
+    	// Start the overall timer:
+    	overall_timer.start(tref+OVERALL_DURATION);
+
+        // Mark out our next target:
+        this.target       = caller;
+    }
+}

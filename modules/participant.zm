@@ -1,0 +1,61 @@
+
+// Creates required participant record fields.
+void create_participant_fields()
+{
+	expdb.participant.add_enum_field("gender_m_f", "m|f");
+	expdb.participant.add_int_field("age_months");
+	expdb.participant.add_enum_field("type_risk_control", "risk|control");
+	
+	expdb.participant.add_enum_field("contrast_native_nonnative", "native|nonnative");
+	expdb.participant.add_enum_field("first_alternation_alt_nalt", "alt|nalt");
+	expdb.participant.add_enum_field("token_fep_fap", "fep|fap");
+}
+ 
+ 
+// Checks current values of participant record fields.
+int check_participant_fields()
+{
+	if(
+		expdb.participant.has_enum_field("gender_m_f") && 
+		(
+			expdb.participant.get_enum_field("gender_m_f") == "m" ||
+			expdb.participant.get_enum_field("gender_m_f") == "f"
+		) &&
+
+		expdb.participant.has_int_field("age_months") && 
+		expdb.participant.get_int_field("age_months") > 0 &&
+
+		expdb.participant.has_enum_field("type_risk_control") &&
+		(
+			expdb.participant.get_enum_field("type_risk_control")!="risk" ||
+			expdb.participant.get_enum_field("type_risk_control") !="control" 
+		) &&
+
+		expdb.participant.has_enum_field("contrast_native_nonnative") &&
+		(
+			expdb.participant.get_enum_field("contrast_native_nonnative")!="native" ||
+			expdb.participant.get_enum_field("contrast_native_nonnative") !="nonnative" 
+		) &&
+
+		expdb.participant.has_enum_field("first_alternation_alt_nalt") &&
+		(
+			expdb.participant.get_enum_field("first_alternation_alt_nalt")!="alt" ||
+			expdb.participant.get_enum_field("first_alternation_alt_nalt") !="nalt" 
+		) &&
+
+		expdb.participant.has_enum_field("token_fep_fap") &&
+		(
+			expdb.participant.get_enum_field("token_fep_fap")!="fep" ||
+			expdb.participant.get_enum_field("token_fep_fap") !="fap" 
+		)
+	)
+	{
+		return OK;
+	}
+	else
+	{
+		println("Missing or invalid participant record entries! Check participant data.");
+		return ERROR;
+	}
+    return OK;
+}

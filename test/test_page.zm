@@ -1,0 +1,219 @@
+Page test_page
+{
+    TestItem    item;           // trial control parameters
+
+    int token_played_counter;
+
+    init()
+    {
+        fill_pattern_color = TEST_PAGE_COLOR;
+    }
+ 
+    on_event:message()
+    {
+        if(message_sender == control && message_arg == CLOCK_RUNNING)
+        {
+            continue_timer.abort();
+        }
+        else if ( message_sender == control && message_arg == CLOCK_PAUSED)
+        {
+            continue_timer.start(event_time + LOOKAWAY_CONTINUES_THRESHOLD);
+        }
+        else
+            handle_special_key(this, input_key, input_modifiers);
+    }
+    
+    Timer continue_timer
+    {
+        on_event:expire()
+        {
+            control.end_clock(event_time);
+            done(CONTINUE, event_time);
+        }
+    }
+ 
+    VerticalLayout layout
+    {
+        init()
+        {
+            spacing = 50;
+            height = 0;     // 0 means as large as possible
+        }
+ 
+ 
+        CanvasGadget canvas
+        {
+            on_event:resize()
+            {
+                offset_x = floor(test_window1.width / 2);
+                offset_y = floor(test_window1.height/ 2);
+            }
+
+            ImageShape picture
+            {
+                void setup(string file_name)
+                {
+                    picture.image    = stimuli_dir() + "images/" + file_name;
+                    picture.offset_x = -floor(picture.actual_width/2);
+                    picture.offset_y = -floor(picture.actual_height/2);
+                }
+            }
+
+            time start_picture(time t, string file_name)
+            {
+                picture.setup(file_name);
+                picture.start(t);
+                return picture.expected_start_time;
+            }
+        }
+ 
+ 
+        time start_stimulus(time t)
+        {
+          return t;
+        }
+ 
+ 
+        void reset()
+        {
+            full_abort();
+        }
+    }
+
+    bool check_if_we_are_done(time t)
+    {
+        token_played_counter++;
+        if(token_played_counter >= TOKEN_REPETITION_MAX)
+        {
+            done(CONTINUE, t);
+            return true;
+        }
+        return false;
+    }
+
+    SoundChain audio
+    {
+        string[..] file_names;
+
+        SoundFile clip {}
+     
+        SoundPlayback playback {}
+       
+        on_event:start()
+        {
+            control.show_speaker_icon(FRONT_SIDE);
+        }
+
+        on_event:finish()
+        {
+            control.hide_speaker_icon(FRONT_SIDE);
+            if(!check_if_we_are_done(event_time))
+                this.play(event_time + INTERSOUND_INTERVAL);
+        }
+
+        time play(time t)
+        {
+            this.playback.device = sound_output_device;
+            this.clip.file =stimuli_dir() + "sounds/" + audio.file_names[0];
+            first_to_last_shift(file_names);
+
+            this.start(t);
+            return audio.expected_start_time;
+        }
+
+        void setup()
+        {
+            audio.abort();
+            file_names.size = 2;
+            file_names[0] = item.sound1_filename;
+            file_names[1] = item.sound2_filename;
+        }
+
+        void first_to_last_shift(string[] array)
+        {
+            int index;
+            string first = array[index];
+
+            while(index < array.size-1)
+            {
+                array[index] = array[index+1];
+                index++;
+            }
+
+            array[array.size-1] = first;
+        }
+        
+    }
+ 
+    // Aborts any ongoing activity on this page and signals the initiator
+    // of the trial that we're done.
+    void done(int msgid, time t)
+    {
+        // Just in case; abort presentation if still active.
+        layout.reset();
+        audio.abort();
+
+        signal_target(msgid);   // tell caller we're done
+        target = null;
+ 
+        control.stop_clock(t);
+        control.clear_status();
+        control.controlled_page = null;
+    }
+ 
+ 
+    //==========================================================================
+ 
+ 
+    // Performs preparatory work required before using this page.
+    void setup()
+    { 
+    }
+ 
+ 
+    // Performs cleaning up if necessary.
+    void cleanup()
+    {
+        control.clear_status();
+
+        // Just in case; abort presentation if still active.
+        layout.reset();
+        audio.abort();
+    }
+ 
+ 
+    // Starts a trial.
+    void action(Object caller, TestItem it, time tref)
+    {
+
+        //setup control boxes
+        experiment.setup_response_box();
+        control.controlled_page = this;
+
+        token_played_counter = 0;
+
+        // Save the passed trial control parameters.
+        item = it;
+ 
+        // Show this page (if not yet done) and make tref the trial start time.
+        tref = test_window1.show_test_page(this, tref);
+
+        tref = layout.canvas.start_picture(tref, item.image_filename);
+        audio.setup();
+        tref = audio.play(tref);
+
+        // control
+        control.begin_clock();
+        control.release_clock(tref);
+        control.start_clock(tref);
+
+        // Remember who to signal when the trial is over.
+        target = caller;
+
+
+        // Update status line on control window. Cleared in done() above.
+        control.set_status(
+            string(item.id) + "  " + 
+            string(item.image_filename));
+    }
+}

@@ -1,0 +1,135 @@
+string[..] movie1_frames =
+{
+    "movie1/frame000.png",
+    "movie1/frame001.png",
+    "movie1/frame002.png",
+    "movie1/frame003.png",
+    "movie1/frame004.png",
+    "movie1/frame005.png",
+    "movie1/frame006.png",
+    "movie1/frame007.png",
+    "movie1/frame008.png",
+    "movie1/frame009.png",
+    "movie1/frame010.png",
+    "movie1/frame011.png",
+    "movie1/frame012.png",
+    "movie1/frame013.png",
+    "movie1/frame014.png",
+    "movie1/frame015.png",
+    "movie1/frame016.png",
+    "movie1/frame017.png",
+    "movie1/frame018.png",
+    "movie1/frame019.png",
+    "movie1/frame020.png"
+};
+
+string[..] movie2_frames =
+{
+    "movie2/frame000.png",
+    "movie2/frame001.png",
+    "movie2/frame002.png",
+    "movie2/frame003.png",
+    "movie2/frame004.png",
+    "movie2/frame005.png",
+    "movie2/frame006.png",
+    "movie2/frame007.png",
+    "movie2/frame008.png",
+    "movie2/frame009.png",
+    "movie2/frame010.png",
+    "movie2/frame011.png",
+    "movie2/frame012.png",
+    "movie2/frame013.png",
+    "movie2/frame014.png",
+    "movie2/frame015.png",
+    "movie2/frame016.png",
+    "movie2/frame017.png",
+    "movie2/frame018.png",
+    "movie2/frame019.png",
+    "movie2/frame020.png",
+    "movie2/frame021.png",
+    "movie2/frame022.png",
+    "movie2/frame023.png",
+    "movie2/frame024.png",
+};
+
+record TestItem {
+
+    int id;
+
+    string image_filename;
+    string sound1_filename;
+    string sound2_filename;
+}
+
+TestItem[..] habituation_items;
+TestItem[..] test_items;
+
+int load_stimuli()
+{
+    int status = OK;
+    if( read_csv(habituation_items, "hab_"+csv_file_name()) != OK) status = ERROR;
+    if( check_files(habituation_items)                         != OK) status = ERROR;
+
+    if( read_csv(test_items, "test_"+csv_file_name()) != OK) status = ERROR;
+    if( check_files(test_items)                          != OK) status = ERROR;
+
+    return status;
+}
+
+// loads in csv into the specified target
+int read_csv(TestItem[] target, string source)
+{
+    int err = target.load(stimuli_dir() + source,
+    true,           // if true, file contains a header row
+    1);             // number of lines to skip before header and data
+    if (err) {
+        println("Trouble loading from " + source);
+        return err;         
+    }
+
+    return OK;
+     // Load data into test_items table.
+}
+
+// Provides the csv file name based on participant data.
+string csv_file_name()
+{
+    string name =
+            expdb.participant.get_enum_field("contrast_native_nonnative") + "_" + 
+            expdb.participant.get_enum_field("first_alternation_alt_nalt") + "_" + 
+            expdb.participant.get_enum_field("token_fep_fap")  + ".csv";
+
+    return name;
+}
+
+// checks files if in TestItem are okay
+int check_files(TestItem[] target)
+{
+    int status = OK;
+
+    int index = 0;
+    while(index < target.size)
+    {
+        string image_path = stimuli_dir() + "images/" + target[index].image_filename;
+        if( !file_okay(image_path)) status = ERROR;
+
+        string sound1_path = stimuli_dir() + "sounds/" + target[index].sound1_filename;
+        if( !file_okay(sound1_path)) status = ERROR;
+
+        string sound2_path = stimuli_dir() + "sounds/" + target[index].sound2_filename;
+        if( !file_okay(sound1_path)) status = ERROR;
+        
+        index++;
+    }
+
+    return status;
+}
+
+// Checks if a file is both existent and readable
+bool file_okay(string filepath)
+{
+    bool okay = file_exists(filepath) && file_readable(filepath);
+    if(!okay)
+        println("Problems with " + filepath);
+    return okay;
+}

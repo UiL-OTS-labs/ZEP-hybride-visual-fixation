@@ -1,0 +1,178 @@
+/******************************************************************************\
+FILE:           hvf.zm
+AUTHOR:         CPA van Run <C.P.A.vanrun@uu.nl>
+ADAPTED BY:     -
+
+DESCRIPTION:
+
+General idea of the experiment is to have two windows on two screens. 
+One that is towards a participant (test window) and another that is visibile to the researcher (control window).
+The test windows tries to combine visual and auditive stimuli to get the attention of the child.
+The control window has a large black area to be used for overlaying it on a video stream.
+The control window furthermore has features to allow measuring the look time of the child.
+
+1. Pre-test phase
+    Attention test to score attention.
+
+2. Habituation phase
+    After a certain amount a drop in looktime duration is registered as habituation to have occured.
+
+3. Test phase
+    Main goal is recording looking time on certain cue's.
+
+4. Post-test phase
+    Attention test to score attention.
+
+INPUT:
+In stimuli there are csv files. The name of the csv files are expected to be build from the three determinators 
+contrast (native/nonnative), first alteration (alt/nalt), and token (fep/fap). 
+Furthermore each list needs to be in a test and habitiuation version (prefix: 'hab_' or 'test_').
+For instance: test_native_alt_fep.csv or hab_native_nalt_fap.csv.
+
+OUTPUT:
+Tables that contain individual looks.
+Tables that contain summaries of looks per trial.
+Tables that contain inclusion criterion results. 
+
+HISTORY:
+2016-07-14 CvR Created as part of the hvf experiment.
+
+\******************************************************************************/
+
+requires 1.12;
+
+import std_entry_page1;
+import std_texts_nl;
+import std_exit_page1;
+import std_blank_page;
+import globaldefs;
+
+import baby_windows1;
+import response_box;
+import stimuli;
+import output;
+
+import attention_test::task;
+import test::task;
+
+Experiment experiment
+{
+    on_event:entry()
+    {
+        if(check_participant_fields() != OK) terminate;
+        if( load_stimuli() != OK) terminate;
+
+        general_output.configured_habituation_threshold    = LOOKTIME_HABITUATION_THRESHOLD;
+        general_output.configured_attention_loss_threshold = LOOKTIME_PRE_POST_THRESHOLD;
+
+        show_test_windows();
+    }
+
+    // Is also called from within a lot of classes to refocus the control as primary target.
+    void setup_response_box()
+    {
+        if( !control.button_box.is_open)
+            control.button_box.open(resolve_beexybox_address());
+
+        control.button_box.disable_buttons();
+        control.button_box.enable_all_buttons(1);
+        control.target = control;
+    }
+
+    on_event:message()
+    {
+        // On Ctrl+F4 jump unconditionally to the thank-you part.
+        if (message_sender == control && message_arg == SYS_STOP)
+        {
+            control.mark_experiment_aborted();
+            thankyou.enter();
+        }
+    }
+
+
+    Part welcome
+    {
+        on_event:entry()
+        {
+            control.controlled_page = entry_page;
+            entry_page.set_text(WELCOME_TEXT);
+            entry_page.action(this, 0s);
+        }
+
+        on_event:exit()
+        {
+            control.controlled_page = null;
+        }
+    }
+
+    Part pretest
+    {
+        on_event:entry()
+        {
+            // table number | output table name | frames for movie
+            attention_test::setup(1, "pre_test_attention", movie2_frames);
+            attention_test::action(this);
+        }
+
+        on_event:exit()
+        {
+            general_output.total_look_time_pre= attention_test::task.total_duration;
+        }
+    }
+
+    Part habituation
+    {
+        on_event:entry()
+        {
+            // table number | table name | test items | frames for movie | habituated criteria
+            test::setup(1, "habituation", habituation_items, movie1_frames, true);
+            test::action(this);
+        }
+    }
+
+    Part test
+    {
+        on_event:entry()
+        {
+            // table number | table name | test items | frames for movie | habituated criteria  
+            test::setup(1, "test", test_items, movie2_frames, false);
+            test::action(this);
+        }
+    }
+
+    Part posttest
+    {
+        on_event:entry()
+        {
+            // table number | output table name | frames for movie
+            attention_test::setup(1, "post_test_attention", movie1_frames);
+            attention_test::action(this);
+        }
+        on_event:exit()
+        {
+            // Calculate last parts of general_output
+            general_output.total_look_time_post = attention_test::task.total_duration;
+
+            real percentage_change;
+            if( general_output.total_look_time_post > 0s && general_output.total_look_time_pre > 0s)
+                percentage_change = real(general_output.total_look_time_post) / real(general_output.total_look_time_pre);
+
+            general_output.attention_kept = percentage_change >= LOOKTIME_PRE_POST_THRESHOLD;
+            general_output.include = general_output.habituated && general_output.attention_kept;
+
+            // Make sure it is written away.
+            save_general_output();
+        }
+    }
+
+    Part thankyou
+    {
+        on_event:entry()
+        {
+            control.end_experiment();   // Check-in session.
+
+            exit_page.set_text(THANK_YOU_TEXT);
+            exit_page.action(this, 10s);
+        }
+    }
+}

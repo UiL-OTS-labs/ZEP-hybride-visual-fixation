@@ -1,0 +1,7 @@
+const real BEEP_FREQUENCY       = 330;
+const dur BEEP_DURATION         = 257.57ms;
+const dur BEEP_ONSET_INTERVAL   = 1008ms;
+const dur PICTURE_SHOW_DURATION = 2016ms;
+const dur DRAW_TIME             = 16.8ms;
+
+const dur OVERALL_DURATION      = 24s;

@@ -1,0 +1,48 @@
+
+// images that are shown during the pre and post test. Order determines the location as follows:
+// TopLeft, TopRight, Middle, BottomLeft, BottomRight.
+// Leave empty ("") to show none at a location.
+
+string[..][..] attention_test_image_filenames = 
+{
+	{
+		"eye_active.svg", "eye_nonactive.svg",
+		"eye_active.svg",
+		"eye_nonactive.svg","eye_active.svg",
+	},
+	{
+		"eye_nonactive.svg", "eye_active.svg",
+		"eye_nonactive.svg",
+		"eye_active.svg","eye_nonactive.svg"
+	},
+	{
+		"eye_active.svg", "eye_nonactive.svg",
+		"eye_active.svg",
+		"eye_nonactive.svg","eye_active.svg",
+	},
+	{
+		"eye_nonactive.svg", "eye_active.svg",
+		"eye_nonactive.svg",
+		"eye_active.svg","eye_nonactive.svg"
+	},
+	{
+		"eye_active.svg", "eye_nonactive.svg",
+		"eye_active.svg",
+		"eye_nonactive.svg","eye_active.svg",
+	},
+	{
+		"eye_nonactive.svg", "eye_active.svg",
+		"eye_nonactive.svg",
+		"eye_active.svg","eye_nonactive.svg"
+	},
+	{
+		"eye_active.svg", "eye_nonactive.svg",
+		"eye_active.svg",
+		"eye_nonactive.svg","eye_active.svg",
+	},
+	{
+		"eye_nonactive.svg", "eye_active.svg",
+		"eye_nonactive.svg",
+		"eye_active.svg","eye_nonactive.svg"
+	},
+};

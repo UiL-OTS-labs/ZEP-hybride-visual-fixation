@@ -1,0 +1,128 @@
+Page attention_grabber_page 
+{
+	init()
+    {
+        fill_pattern_color = TEST_PAGE_COLOR;
+    }
+
+    on_event:message()
+    {
+        if( message_sender == control && message_arg == CONTINUE )
+        {
+            done(CONTINUE);
+        }
+        else
+            handle_special_key(this, input_key, input_modifiers);
+    }
+
+    CanvasGadget canvas 
+    {
+
+        ImageShape movie
+        {
+            int frame;
+            bool reverse;
+            int update_interval_in_frames;
+
+            string[] frames;
+
+            void setup(string[] frames, int interval_in_frames)
+            {
+                this.frames = frames;
+                frame = 0;
+                reverse = false;
+                update_interval_in_frames = interval_in_frames;
+            }
+
+            void center()
+            {
+                movie.offset_x = -floor(movie.actual_width/2);
+                movie.offset_y = -floor(movie.actual_height/2);
+            }
+
+            on_event:pre_update()
+            {  
+                if(relative_frame % update_interval_in_frames != 0 )
+                    return;
+
+                if(reverse)
+                    frame--;
+                else
+                    frame++;
+                 
+                if( frame <= 0 || frame >= frames.size-1 )
+                    reverse = ! reverse;
+
+                movie.image = stimuli_dir() + "movies/" + frames[frame];
+                movie.center();
+                
+            }
+
+        }
+
+        on_event:resize()
+        {
+            offset_x = floor(test_window1.width / 2);
+            offset_y = floor(test_window1.height/ 2);
+        }
+
+        void reset()
+        {
+            //TODO reset
+        }
+
+    }
+
+
+
+    // Aborts any ongoing activity on this page and signals the initiator
+    // of the trial that we're done.
+    void done(int msgid)
+    {
+       	canvas.movie.abort();
+
+        signal_target(msgid);   // tell caller we're done
+        target = null;
+ 
+        control.clear_status();
+    }
+ 
+
+    // Performs preparatory work required before using this page.
+    void setup(string[] movie_frames, int movie_update_interval_in_frames = 7)
+    {
+        canvas.reset();
+        canvas.movie.setup(movie_frames, movie_update_interval_in_frames);
+
+        experiment.setup_response_box();
+        control.button_box.disable_buttons();
+        control.button_box.enable_all_buttons(CONTINUE);
+        control.target = this;
+    }
+ 
+ 
+    // Performs cleaning up if necessary.
+    void cleanup()
+    {
+        canvas.reset();
+
+        this.fill_pattern_color = TEST_PAGE_COLOR;
+        
+        control.target = null;
+    }
+ 
+ 
+    // Starts a trial.
+    void action(Object caller, time tref)
+    {
+    	// Mark out our next target:
+        this.target = caller;
+        
+        // Timing for the test:
+        test_window1.show_test_page(this, tref + 100ms);
+
+        canvas.movie.start(tref);
+
+        control.set_status("Attention Grabber");
+    }
+}

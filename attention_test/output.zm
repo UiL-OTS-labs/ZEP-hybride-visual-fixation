@@ -1,0 +1,83 @@
+ 
+// Test output table record.
+record TestOutput
+{
+    int         look_num;   
+    int 		looks_counted;    
+    dur         duration_length_ms;
+}
+ 
+ 
+// Test output table.
+TestOutput[..] test_output;
+ 
+ 
+//------------------------------------------------------------------------------
+ 
+ 
+// Appends one row of data to test output table.
+void test_output_append(TestOutput data)
+{
+    test_output.size = test_output.size + 1;
+    test_output[test_output.size-1] = data;
+}
+ 
+ 
+// Writes test output table contents to CSV file and clears the table.
+dur test_output_save(string table_name, int table_number, string table_file_name = "")
+{
+	if(table_file_name == "")
+		table_file_name = namespace_name;
+
+    // Append table to CSV file (create if non-existent). The filename format
+    // is: <dbname>/<dbnum>/<expname>/<phasename>/ses<sesid>-<tblnum>.csv
+    string fn = expdb.experiment.session.create_table(table_file_name, table_number);
+
+    test_output.append(fn, table_file_name);
+
+    dur total_duration = generate_and_write_summary(test_output, table_number, "summary_" + table_file_name);
+
+    test_output.size = 0;
+
+    return total_duration;
+}
+
+// report summary
+dur generate_and_write_summary(TestOutput[] test_output, int table_number, string table_file_name)
+{
+	if(test_output.size < 1)
+	{
+		println("Skipping summary, nothing so summarise!");
+		return -1s;
+	}
+
+	TestOutput[..] summary;
+
+	TestOutput current_look = test_output[0];
+	dur cumulative_duration = test_output[0].duration_length_ms;
+
+	int index=1;
+	while( index < test_output.size)
+	{
+		cumulative_duration = cumulative_duration+test_output[index].duration_length_ms;	
+		index++;
+	}
+
+	TestOutput new_output;
+	new_output.look_num           = -9999;       
+	new_output.looks_counted       = test_output.size; 
+	new_output.duration_length_ms = cumulative_duration;
+
+	summary.size = summary.size + 1;
+	summary[summary.size - 1] = new_output;
+
+	string fn = expdb.experiment.session.create_table(table_file_name, table_number);
+    summary.append(fn, table_file_name);
+
+    return cumulative_duration;
+}
+
+bool is_last_trial(int index, TestOutput[] test_output)
+{
+	return index == test_output.size-1;
+}

@@ -1,0 +1,71 @@
+import defs;
+import attention_test_page;
+import output;
+
+Block task
+{
+    int output_table_number;
+
+    dur total_duration;
+
+    string output_table_name;
+
+    string[] movie_frames;
+
+    Part attention_grabbing
+    {
+        on_event:entry()
+        {
+            attention_grabber_page.setup(movie_frames);
+            attention_grabber_page.fill_pattern_color = color:darkkhaki;
+            attention_grabber_page.action(this, event_time);
+        }
+    }
+
+    Part testing
+    {
+        on_event:entry()
+        {
+            attention_test_page.setup();
+            attention_test_page.action(this, event_time);
+        }
+
+        on_event:exit()
+        {
+            int index;
+            int look_counter = 1;
+            // The timestamps record both the stop and start time. Hence we need to parse them in pairs.
+            while(index < control.clock.timestamps.size-1)
+            {
+                TestOutput output;
+
+                output.look_num           = look_counter;
+                output.looks_counted      = -9999;
+                output.duration_length_ms = control.clock.timestamps[index+1]-control.clock.timestamps[index];
+                test_output_append(output);
+
+                look_counter++;
+                index = index+2;
+            }
+
+            task.total_duration = test_output_save(output_table_name, output_table_number, output_table_name);
+
+            control.reset_clock();
+        }
+    }
+}
+
+void setup(int output_table_number, string output_table_name, string[] movie_frames)
+{
+    task.output_table_number = output_table_number;
+    task.output_table_name = output_table_name;
+    task.movie_frames = movie_frames;
+    task.total_duration = 0s;
+}
+
+void action(Part caller)
+{
+    // Activate the task. When the task is done, the registered caller
+    // (c.q. the main experiment object) will automatically be signalled.
+    task.enter(caller);
+}

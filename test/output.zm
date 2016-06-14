@@ -1,0 +1,124 @@
+ 
+// Test output table record.
+record TestOutput
+{
+	int trial_num;
+
+	int look_num;       
+	int looks_counted;
+
+	dur duration_length_ms;
+
+	// Stimulus description:
+	int id;
+	
+	string image_filename;
+	string sound1_filename;
+	string sound2_filename;
+}
+ 
+// Test output table.
+TestOutput[..] test_output;
+ 
+ 
+//------------------------------------------------------------------------------
+ 
+ 
+// Appends one row of data to test output table.
+void output_append(TestOutput[] test_output, TestOutput data)
+{
+    test_output.size = test_output.size + 1;
+    test_output[test_output.size-1] = data;
+}
+ 
+ 
+// Writes test output table contents to CSV file and clears the table.
+void output_save(TestOutput[] test_output, string table_name, int table_number, string table_file_name = "")
+{
+	if(table_file_name == "")
+		table_file_name = namespace_name;
+
+    // Append table to CSV file (create if non-existent). The filename format
+    // is: <dbname>/<dbnum>/<expname>/<phasename>/ses<sesid>-<tblnum>.csv
+    string fn = expdb.experiment.session.create_table(table_file_name, table_number);
+    test_output.append(fn, table_file_name);
+
+	generate_and_write_summary(test_output, table_number, "summary_" + table_file_name);
+
+	test_output.size = 0; // Clear after making a summary.
+}
+
+// report summary
+void generate_and_write_summary(TestOutput[] test_output, int table_number, string table_file_name)
+{
+	if(test_output.size < 1)
+	{
+		println("Skipping summary, nothing so summarise!");
+		return;
+	}
+
+	TestOutput[..] summary;
+
+	TestOutput current_look = test_output[0];
+	dur cumulative_duration = test_output[0].duration_length_ms;
+	int looks_counted = 1;
+
+	int index=1;
+	while( index < test_output.size)
+	{
+
+		if (current_look.trial_num == test_output[index].trial_num )
+		{
+			cumulative_duration = cumulative_duration+test_output[index].duration_length_ms;
+			looks_counted++;
+		}
+		else
+		{
+			TestOutput new_output;
+			
+			new_output.trial_num          = current_look.trial_num;
+			new_output.look_num           = -1;       
+			new_output.looks_counted       = looks_counted; 
+			new_output.duration_length_ms = cumulative_duration;
+			new_output.id                 = current_look.id;
+			new_output.image_filename     = current_look.image_filename;
+			new_output.sound1_filename    = current_look.sound1_filename;
+			new_output.sound2_filename    = current_look.sound2_filename;
+
+			summary.size = summary.size + 1;
+			summary[summary.size - 1] = new_output;
+
+			// Set new values for cumulation <= yes, this is a word; I looked it up.
+			current_look = test_output[index];
+			cumulative_duration = test_output[index].duration_length_ms;
+			looks_counted = 1;
+		}
+
+		if( is_last_trial(index, test_output) )
+		{
+			TestOutput new_output;
+		
+			new_output.trial_num          = current_look.trial_num;
+			new_output.look_num           = -9999;       
+			new_output.looks_counted       = looks_counted; 
+			new_output.duration_length_ms = cumulative_duration;
+			new_output.id                 = current_look.id;
+			new_output.image_filename     = current_look.image_filename;
+			new_output.sound1_filename    = current_look.sound1_filename;
+			new_output.sound2_filename    = current_look.sound2_filename;
+			
+			summary.size = summary.size + 1;
+			summary[summary.size - 1] = new_output;
+		}
+
+		index++;
+	}
+
+	string fn = expdb.experiment.session.create_table(table_file_name, table_number);
+    summary.append(fn, table_file_name);
+}
+
+bool is_last_trial(int index, TestOutput[] test_output)
+{
+	return index == test_output.size-1;
+}
