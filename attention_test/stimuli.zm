@@ -3,46 +3,46 @@
 // TopLeft, TopRight, Middle, BottomLeft, BottomRight.
 // Leave empty ("") to show none at a location.
 
-string[..][..] attention_test_image_filenames = 
+string[..][..] attention_test_image_filenames =
 {
 	{
-		"eye_active.svg", "eye_nonactive.svg",
-		"eye_active.svg",
-		"eye_nonactive.svg","eye_active.svg",
+		"beer.png", "",
+		"schoen.png",
+		"vliegtuig.png","",
 	},
 	{
-		"eye_nonactive.svg", "eye_active.svg",
-		"eye_nonactive.svg",
-		"eye_active.svg","eye_nonactive.svg"
+		"", "dolfijn.png",
+		"",
+		"koe.png","kado.png"
 	},
 	{
-		"eye_active.svg", "eye_nonactive.svg",
-		"eye_active.svg",
-		"eye_nonactive.svg","eye_active.svg",
+		"", "zebra.png",
+		"kuiken.png",
+		"ballon.png",""
 	},
 	{
-		"eye_nonactive.svg", "eye_active.svg",
-		"eye_nonactive.svg",
-		"eye_active.svg","eye_nonactive.svg"
+		"vlinder.png", "",
+		"",
+		"boom.png","fiets.png"
 	},
 	{
-		"eye_active.svg", "eye_nonactive.svg",
-		"eye_active.svg",
-		"eye_nonactive.svg","eye_active.svg",
+		"", "stoel.png",
+		"",
+		"vork.png","kip.png"
 	},
 	{
-		"eye_nonactive.svg", "eye_active.svg",
-		"eye_nonactive.svg",
-		"eye_active.svg","eye_nonactive.svg"
+		"giraf.png", "",
+		"",
+		"appel.png","banaan.png"
 	},
 	{
-		"eye_active.svg", "eye_nonactive.svg",
-		"eye_active.svg",
-		"eye_nonactive.svg","eye_active.svg",
+		"kikker.png", "",
+		"auto.png",
+		"","gieter.png"
 	},
 	{
-		"eye_nonactive.svg", "eye_active.svg",
-		"eye_nonactive.svg",
-		"eye_active.svg","eye_nonactive.svg"
+		"bal.png", "pinguin.png",
+		"",
+		"konijn.png",""
 	},
 };
