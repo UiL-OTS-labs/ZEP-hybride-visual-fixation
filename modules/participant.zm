@@ -8,7 +8,7 @@ void create_participant_fields()
 	
 	expdb.participant.add_enum_field("contrast_native_nonnative", "native|nonnative");
 	expdb.participant.add_enum_field("first_alternation_alt_nalt", "alt|nalt");
-	expdb.participant.add_enum_field("token_fep_fap", "fep|fap");
+	expdb.participant.add_enum_field("token_A1_A2_B1_B2", "A1|A2|B1|B2");
 }
  
  
@@ -43,10 +43,12 @@ int check_participant_fields()
 			expdb.participant.get_enum_field("first_alternation_alt_nalt") !="nalt" 
 		) &&
 
-		expdb.participant.has_enum_field("token_fep_fap") &&
+		expdb.participant.has_enum_field("token_A1_A2_B1_B2") &&
 		(
-			expdb.participant.get_enum_field("token_fep_fap")!="fep" ||
-			expdb.participant.get_enum_field("token_fep_fap") !="fap" 
+			expdb.participant.get_enum_field("token_A1_A2_B1_B2")!="A1" ||
+			expdb.participant.get_enum_field("token_A1_A2_B1_B2")!="A2" ||
+			expdb.participant.get_enum_field("token_A1_A2_B1_B2")!="B1" ||
+			expdb.participant.get_enum_field("token_A1_A2_B1_B2") !="B2" 
 		)
 	)
 	{
