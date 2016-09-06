@@ -12,16 +12,6 @@ Block task
 
     string[] movie_frames;
 
-    Part attention_grabbing
-    {
-        on_event:entry()
-        {
-            attention_grabber_page.setup(movie_frames);
-            attention_grabber_page.fill_pattern_color = color:darkkhaki;
-            attention_grabber_page.action(this, event_time);
-        }
-    }
-
     Part testing
     {
         on_event:entry()
