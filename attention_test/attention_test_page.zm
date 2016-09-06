@@ -184,7 +184,7 @@ Page attention_test_page
         cleanup();
         experiment.setup_response_box();
 
-        //attention_test_image_filenames.shuffle(0, -1);
+        attention_test_image_filenames.shuffle(0, -1);
     }
  
  
