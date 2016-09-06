@@ -7,7 +7,7 @@ Page attention_test_page
 
 	init()
     {
-        fill_pattern_color = TEST_PAGE_COLOR;
+        fill_pattern_color = rgb:BAD6EB;
     }
 
     HorGridLayout layout 
@@ -180,7 +180,7 @@ Page attention_test_page
     {
         cleanup();
         experiment.setup_response_box();
-        fill_pattern_color = TEST_PAGE_COLOR;
+        
         //attention_test_image_filenames.shuffle(0, -1);
     }
  
