@@ -109,8 +109,11 @@ Page attention_test_page
             int index;
             while (index < images.size)
             {
-                images[index].image = stimuli_dir() + "images/" + image_filenames[index];
-                images[index].is_visible=true;
+                bool should_be_visible = image_filenames[index] != "";
+                if(should_be_visible)
+                    images[index].image = stimuli_dir() + "images/" + image_filenames[index];
+                
+                images[index].is_visible= should_be_visible;
                 images[index].offset_x = -floor(images[index].actual_width/2);
                 images[index].offset_y = -floor(images[index].actual_height/2);
                 index++;
@@ -180,7 +183,7 @@ Page attention_test_page
     {
         cleanup();
         experiment.setup_response_box();
-        
+
         //attention_test_image_filenames.shuffle(0, -1);
     }
  
