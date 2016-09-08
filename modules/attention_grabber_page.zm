@@ -85,6 +85,7 @@ Page attention_grabber_page
         target = null;
  
         control.clear_status();
+        control.controlled_page = null;
     }
  
 
@@ -97,6 +98,7 @@ Page attention_grabber_page
         experiment.setup_response_box();
         control.button_box.disable_buttons();
         control.button_box.enable_all_buttons(CONTINUE);
+        control.controlled_page = this;
         control.target = this;
     }
  

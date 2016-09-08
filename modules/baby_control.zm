@@ -146,7 +146,7 @@ Page control
             stop_clock(event_time);
         else if(input_key == 't' && clock.state == CLOCK_PAUSED)
             start_clock(event_time);
-        else if(input_key == ' ')
+        else if(input_key == ' ' || input_key == 't' )
             if(controlled_page != null)
                 signal(controlled_page, CONTINUE);
         else
