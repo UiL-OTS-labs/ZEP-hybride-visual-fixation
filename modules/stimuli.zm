@@ -108,6 +108,7 @@ string hab_csv_file_name()
 {
     string name =
             "hab_" +
+            expdb.participant.get_enum_field("contrast_native_nonnative") + "_" + 
             expdb.participant.get_enum_field("token_A1_A2_B1_B2") + ".csv";
 
     return name;
