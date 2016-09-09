@@ -68,10 +68,10 @@ int load_stimuli()
 {
     int status = OK;
     if( read_csv(habituation_items, hab_csv_file_name()) != OK) status = ERROR;
-    if( check_files(habituation_items)                         != OK) status = ERROR;
+    if( check_files(habituation_items, hab_csv_file_name()) != OK) status = ERROR;
 
     if( read_csv(test_items, test_csv_file_name()) != OK) status = ERROR;
-    if( check_files(test_items)                          != OK) status = ERROR;
+    if( check_files(test_items, test_csv_file_name()) != OK) status = ERROR;
 
     return status;
 }
@@ -115,8 +115,10 @@ string hab_csv_file_name()
 }
 
 // checks files if in TestItem are okay
-int check_files(TestItem[] target)
+int check_files(TestItem[] target, string filename)
 {
+    println("Checking existance of stimuli files for " + filename);
+
     int status = OK;
 
     int index = 0;
@@ -143,5 +145,7 @@ bool file_okay(string filepath)
     bool okay = file_exists(filepath) && file_readable(filepath);
     if(!okay)
         println("Problems with " + filepath);
+
+
     return okay;
 }
