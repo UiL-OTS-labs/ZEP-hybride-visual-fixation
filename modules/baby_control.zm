@@ -1343,7 +1343,7 @@ Page control
 
             if (sectionmask == 0)
             {
-                button_box.output(0);
+                //button_box.output(0);
                 animtimer.abort();
             }
         }
@@ -1353,8 +1353,8 @@ Page control
         {
             on_event:expire()
             {
-                button_box.output(button_box.pattern[button_box.patternindex] & 
-                    button_box.sectionmask);
+//                button_box.output(button_box.pattern[button_box.patternindex] & 
+//                    button_box.sectionmask);
                 if (++button_box.patternindex == button_box.pattern.size)
                     button_box.patternindex = 0;
                 start(expire_time + framedur);

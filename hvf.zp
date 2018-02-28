@@ -39,7 +39,7 @@ HISTORY:
 
 \******************************************************************************/
 
-requires 1.12;
+requires 1.14;
 
 import std_entry_page1;
 import std_texts_nl;
