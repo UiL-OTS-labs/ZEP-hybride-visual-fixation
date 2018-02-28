@@ -143,6 +143,195 @@ NormalWindow test_window1
     }
 }
 
+// A page to show a black window on the leftside for the participant.
+Page black_page_left
+{
+    on_event:init()
+    {
+        fill_pattern_color = color:black;
+    }
+}
+
+NormalWindow test_window_left
+{
+    init()
+    {
+        geometry = ALIGN_BEGIN, ALIGN_BEGIN, 30;
+        background = color:black;
+        title = "left";
+    }
+
+    on_event:close()
+    {
+        // Let ctrl_window handle abort request message.
+        signal(ctrl_window, SYS_QUIT);
+    }
+
+    on_event:key_press()
+    {
+        handle_special_key(this, input_key, input_modifiers);
+    }
+
+    on_event:show()
+    {
+        // Make sure the control window stays active if the test window
+        // becomes mapped.
+        ctrl_window.activate();
+    }
+
+    on_event:message()
+    {
+        // Forward message to ctrl_window (so it can handle stop/abort).
+        signal(ctrl_window, message_arg1, message_arg2);
+    }
+
+    bool is_output_only()
+    {
+        return true;
+    }
+
+    time show_test_page(Page pg, time tstart, bool act=true)
+    {
+        time tnow = now();
+        dur transdel = page_transition_delay;
+        dur transdur = PAGE_TRANSITION_DURATION;
+
+        tstart += first_trial_delay;
+
+        // Consider tstart the time the next trial should start, then we
+        // have tstart - tnow room to perform the page transition. If there
+        // is too little room, then adjust the transition delay and/or the
+        // transition duration.
+        dur d = tstart - tnow - 20ms;   // Take 20ms margin.
+        if (transdur > d)
+        {
+            transdur = d;
+            transdel = 0s;
+        }
+        else if (transdel + transdur > d)
+        {
+            transdel = d - transdur;
+        }
+
+        // Activate the window so it gets the keyboard focus.
+//      if (act && !is_output_only()) activate();       always false
+
+        // Show page if not yet shown.
+        int alreadyshown = show_page(pg, tnow + transdel, transdur);
+
+        // If the page is not yet shown determine the the time it will become
+        // fully visible.
+        if (!alreadyshown)
+        {
+            time t = pg.expected_transition_finish_time;
+            if (t > tstart) tstart = t;
+        }
+
+        // Clear page transition delay and first trial delay.
+        page_transition_delay = 0s;
+        first_trial_delay = 0s;
+
+        return tstart;
+    }
+}
+
+Page black_page_right
+{
+    on_event:init()
+    {
+        fill_pattern_color = color:black;
+    }
+}
+
+NormalWindow test_window_right
+{
+    init()
+    {
+        geometry = ALIGN_BEGIN, ALIGN_BEGIN, 30;
+        background = color:black;
+        title = "right";
+    }
+
+
+    on_event:close()
+    {
+        // Let ctrl_window handle abort request message.
+        signal(ctrl_window, SYS_QUIT);
+    }
+
+
+    on_event:key_press()
+    {
+        handle_special_key(this, input_key, input_modifiers);
+    }
+
+
+    on_event:show()
+    {
+        // Make sure the control window stays active if the test window
+        // becomes mapped.
+        ctrl_window.activate();
+    }
+
+
+    on_event:message()
+    {
+        // Forward message to ctrl_window (so it can handle stop/abort).
+        signal(ctrl_window, message_arg1, message_arg2);
+    }
+
+
+    bool is_output_only()
+    {
+        return true;
+    }
+
+
+    time show_test_page(Page pg, time tstart, bool act=true)
+    {
+        time tnow = now();
+        dur transdel = page_transition_delay;
+        dur transdur = PAGE_TRANSITION_DURATION;
+
+        tstart += first_trial_delay;
+
+        // Consider tstart the time the next trial should start, then we
+        // have tstart - tnow room to perform the page transition. If there
+        // is too little room, then adjust the transition delay and/or the
+        // transition duration.
+        dur d = tstart - tnow - 20ms;   // Take 20ms margin.
+        if (transdur > d)
+        {
+            transdur = d;
+            transdel = 0s;
+        }
+        else if (transdel + transdur > d)
+        {
+            transdel = d - transdur;
+        }
+
+        // Activate the window so it gets the keyboard focus.
+//      if (act && !is_output_only()) activate();       always false
+
+        // Show page if not yet shown.
+        int alreadyshown = show_page(pg, tnow + transdel, transdur);
+
+        // If the page is not yet shown determine the time it will become
+        // fully visible.
+        if (!alreadyshown)
+        {
+            time t = pg.expected_transition_finish_time;
+            if (t > tstart) tstart = t;
+        }
+
+        // Clear page transition delay and first trial delay.
+        page_transition_delay = 0s;
+        first_trial_delay = 0s;
+
+        return tstart;
+    }
+}
+
 
 NormalWindow ctrl_window
 {
@@ -641,6 +830,15 @@ void setup_windows()
 void show_test_windows()
 {
     test_window1.show();
+    if (display_device.num_heads > 2) {
+        test_window_left.show();
+        test_window_left.show_test_page(black_page_left, now() + 16ms);
+        black_page_left.hide_cursor();
+
+        test_window_right.show();
+        test_window_right.show_test_page(black_page_right, now() + 16ms);
+        black_page_right.hide_cursor();
+    }
 }
 
 
@@ -648,6 +846,10 @@ void show_test_windows()
 void hide_test_windows()
 {
     test_window1.hide();
+    if (display_device.num_heads > 2) {
+        test_window_left.hide();
+        test_window_right.hide();
+    }
 }
 
 
@@ -660,10 +862,20 @@ void position_test_windows(bool home=false)
     {
         test_window1.is_fullscreen = false;
         test_window1.is_maximized = false;
+        test_window_left.is_fullscreen = false;
+        test_window_left.is_maximized = false;
+        test_window_right.is_fullscreen = false;
+        test_window_right.is_maximized = false;
+
         if (display_device.num_heads >= 2)
         {
-            test_window1.set_virtual_size(display_device.head_width(1),
+            test_window1.set_virtual_size(display_device.head_width(3),
+                display_device.head_height(3));
+            test_window_left.set_virtual_size(display_device.head_width(1),
                 display_device.head_height(1));
+            test_window_right.set_virtual_size(display_device.head_width(2),
+                display_device.head_height(2));
+             
         }
         else
         {
@@ -672,16 +884,38 @@ void position_test_windows(bool home=false)
         }
         test_window1.head = 0;
         test_window1.geometry = ALIGN_BEGIN, ALIGN_BEGIN, 40;
+        if (display_device.num_heads > 2) {
+            test_window_left.head = 0;
+            test_window_left.geometry = ALIGN_BEGIN, ALIGN_BEGIN, 40;
+            test_window_right.head = 0;
+            test_window_right.geometry = ALIGN_BEGIN, ALIGN_BEGIN, 40;
+        }
 
         ctrl_window.is_fullscreen = false;
         ctrl_window.is_maximized = false;
         ctrl_window.head = 0;
     }
-    else
-    {
+    else if (display_device.num_heads == 2) {
         test_window1.head = 1;
         test_window1.set_virtual_size(0, 0);
         test_window1.is_fullscreen = true;
+
+        ctrl_window.head = 0;
+//      ctrl_window.is_fullscreen = true;
+    }
+    else
+    {
+        test_window1.head = 3;
+        test_window1.set_virtual_size(0, 0);
+        test_window1.is_fullscreen = true;
+
+        test_window_left.head = 1;
+        test_window_left.set_virtual_size(0, 0);
+        test_window_left.is_fullscreen = true;
+        
+        test_window_right.head = 2;
+        test_window_right.set_virtual_size(0, 0);
+        test_window_right.is_fullscreen = true;
 
         ctrl_window.head = 0;
         ctrl_window.is_maximized = true;
