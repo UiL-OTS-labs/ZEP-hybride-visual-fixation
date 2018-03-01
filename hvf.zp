@@ -59,8 +59,11 @@ Experiment experiment
 {
     on_event:entry()
     {
+
         if(check_participant_fields() != OK) terminate;
         if( load_stimuli() != OK) terminate;
+        
+        setup_response_box(CONTINUE);
 
         general_output.configured_habituation_threshold    = LOOKTIME_HABITUATION_THRESHOLD;
         general_output.configured_attention_loss_threshold = LOOKTIME_PRE_POST_THRESHOLD;
@@ -69,13 +72,13 @@ Experiment experiment
     }
 
     // Is also called from within a lot of classes to refocus the control as primary target.
-    void setup_response_box()
+    void setup_response_box(int button_val=1)
     {
         if( !control.button_box.is_open)
             control.button_box.open(resolve_beexybox_address());
 
         control.button_box.disable_buttons();
-        control.button_box.enable_all_buttons(1);
+        control.button_box.enable_all_buttons(button_val);
         control.target = control;
     }
 
