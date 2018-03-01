@@ -15,49 +15,85 @@ void create_participant_fields()
 // Checks current values of participant record fields.
 int check_participant_fields()
 {
-	if(
-		expdb.participant.has_enum_field("gender_m_f") && 
-		(
-			expdb.participant.get_enum_field("gender_m_f") == "m" ||
-			expdb.participant.get_enum_field("gender_m_f") == "f"
-		) &&
+    // check whether we have a enum gender_m_f
+    if (!expdb.participant.has_enum_field("gender_m_f"))
+    {
+        print_error("gender_m_f is not available\n");
+        return ERROR;
+    }
 
-		expdb.participant.has_int_field("age_months") && 
-		expdb.participant.get_int_field("age_months") > 0 &&
+    // Test whether gender_m_f is set correctly.
+	if (expdb.participant.get_enum_field("gender_m_f") != "m" &&
+        expdb.participant.get_enum_field("gender_m_f") != "f")
+    {
+        print_error("gender_m_f is not filled out correctly\n");
+        return ERROR;
+    }
 
-		expdb.participant.has_enum_field("type_risk_control") &&
-		(
-			expdb.participant.get_enum_field("type_risk_control")!="risk" ||
-			expdb.participant.get_enum_field("type_risk_control") !="control" 
-		) &&
+    // Test whether we have age_months and if it is set correctly
+    if (!(expdb.participant.has_int_field("age_months") &&
+          expdb.participant.get_int_field("age_months") > 0)
+          )
+    {
+        print_error("age_months is not filled out correctly\n");
+        return ERROR;
+    }
 
-		expdb.participant.has_enum_field("contrast_native_nonnative") &&
-		(
-			expdb.participant.get_enum_field("contrast_native_nonnative")!="native" ||
-			expdb.participant.get_enum_field("contrast_native_nonnative") !="nonnative" 
-		) &&
+    if (!expdb.participant.has_enum_field("type_risk_control"))
+    {
+        print_error("type_risk_control isn't available\n");
+        return ERROR;
+    }
+    if( (expdb.participant.get_enum_field("type_risk_control") != "risk" &&
+         expdb.participant.get_enum_field("type_risk_control") != "control")
+        )
+    {
+        print_error("type_risk_control not filled out correctly.\n");
+        return ERROR;
+    }
 
-		expdb.participant.has_enum_field("first_alternation_alt_nalt") &&
-		(
-			expdb.participant.get_enum_field("first_alternation_alt_nalt")!="alt" ||
-			expdb.participant.get_enum_field("first_alternation_alt_nalt") !="nalt" 
-		) &&
+    if (!expdb.participant.has_enum_field("contrast_native_nonnative"))
+    {
+        print_error("contrast_native_nonnative isn't available\n");
+        return ERROR;
+    }
 
-		expdb.participant.has_enum_field("token_A1_A2_B1_B2") &&
-		(
-			expdb.participant.get_enum_field("token_A1_A2_B1_B2")!="A1" ||
-			expdb.participant.get_enum_field("token_A1_A2_B1_B2")!="A2" ||
-			expdb.participant.get_enum_field("token_A1_A2_B1_B2")!="B1" ||
-			expdb.participant.get_enum_field("token_A1_A2_B1_B2") !="B2" 
-		)
-	)
+    if (expdb.participant.get_enum_field("contrast_native_nonnative") != "native" &&
+        expdb.participant.get_enum_field("contrast_native_nonnative") != "nonnative")
+    {
+        print_error("contrast_native_nonnative isn't filled out correctly.\n");
+        return ERROR;
+    }
+
+    if (!expdb.participant.has_enum_field("first_alternation_alt_nalt"))
+    {
+        print_error("first_alternation_alt_nalt isn't available\n");
+        return ERROR;
+    }
+
+    if ( expdb.participant.get_enum_field("first_alternation_alt_nalt") != "alt" &&
+         expdb.participant.get_enum_field("first_alternation_alt_nalt") != "nalt")
+    {
+        print_error("Invalid value: \"" +
+            expdb.participant.get_enum_field("first_alternation_alt_nalt") + "\"");
+        print_error("first_alternation_alt_nalt isn't filled out correctly.\n");
+        return ERROR;
+    }
+
+    if (!expdb.participant.has_enum_field("token_A1_A2_B1_B2"))
+    {
+        print_error("token_A1_A2_B1_B2 isn't available\n");
+        return ERROR;
+    }
+    if ( expdb.participant.get_enum_field("token_A1_A2_B1_B2") !="A1" &&
+         expdb.participant.get_enum_field("token_A1_A2_B1_B2") !="A2" &&
+         expdb.participant.get_enum_field("token_A1_A2_B1_B2") !="B1" &&
+         expdb.participant.get_enum_field("token_A1_A2_B1_B2") !="B2")
 	{
-		return OK;
+        print_error("token_A1_A2_B1_B2 isn't filled out correctly.\n");
+        return ERROR;
 	}
-	else
-	{
-		println("Missing or invalid participant record entries! Check participant data.");
-		return ERROR;
-	}
+    
     return OK;
 }
+
