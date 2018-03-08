@@ -1,48 +1,28 @@
 
-// images that are shown during the pre and post test. Order determines the location as follows:
-// TopLeft, TopRight, Middle, BottomLeft, BottomRight.
-// Leave empty ("") to show none at a location.
-
-string[..][..] attention_test_image_filenames =
-{
-	{
-		"beer.png", "",
-		"schoen.png",
-		"vliegtuig.png","",
-	},
-	{
-		"", "dolfijn.png",
-		"",
-		"koe.png","kado.png"
-	},
-	{
-		"", "zebra.png",
-		"kuiken.png",
-		"ballon.png",""
-	},
-	{
-		"vlinder.png", "",
-		"",
-		"boom.png","fiets.png"
-	},
-	{
-		"", "stoel.png",
-		"",
-		"vork.png","kip.png"
-	},
-	{
-		"giraf.png", "",
-		"",
-		"appel.png","banaan.png"
-	},
-	{
-		"kikker.png", "",
-		"auto.png",
-		"","gieter.png"
-	},
-	{
-		"bal.png", "pinguin.png",
-		"",
-		"konijn.png",""
-	},
+string[..] attention_images = {
+    "appel.png",
+    "auto.png",
+    "ballon.png",
+    "bal.png",
+    "banaan.png",
+    "beer.png",
+    "boom.png",
+    "dolfijn.png",
+    "fiets.png",
+    "gieter.png",
+    "giraf.png",
+    "kado.png",
+    "kasteel.png",
+    "kikker.png",
+    "kip.png",
+    "koe.png",
+    "konijn.png",
+    "kuiken.png",
+    "pinguin.png",
+    "schoen.png",
+    "stoel.png",
+    "vliegtuig.png",
+    "vlinder.png",
+    "vork.png",
+    "zebra.png"
 };

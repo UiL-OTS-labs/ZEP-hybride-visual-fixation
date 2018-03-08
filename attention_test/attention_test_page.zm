@@ -1,132 +1,242 @@
 import std_sound_output_device;
 import stimuli;
 
+
+// An image is considered visible when its number from this array is
+// smaller or equal to the number here.
+int[..] visibles = {1,2,3,4,5,6,7,8,9};
+
 Page attention_test_page 
 {
-    int image_counter;
+    
+    // reference to the pictures in ./stimuli.zm
+    string[] pictures;
+    string   image_dir;
 
 	init()
     {
         fill_pattern_color = rgb:BAD6EB;
+        image_dir = stimuli_dir() + "images/";
     }
 
     HorGridLayout layout 
     {
-    	
-    	CanvasGadget[..] canvi;
-    	ImageShape[..] images;
-
-    	CanvasGadget canvas_0_0 { ImageShape image {} }
-    	CanvasGadget canvas_0_1 {}
-    	CanvasGadget canvas_0_2 { ImageShape image {} }
-    	CanvasGadget canvas_1_0 {}
-    	CanvasGadget canvas_1_1 { ImageShape image {} }
-    	CanvasGadget canvas_1_2 {}
-    	CanvasGadget canvas_2_0 { ImageShape image {} }
-    	CanvasGadget canvas_2_1 {}
-    	CanvasGadget canvas_2_2 { ImageShape image {} }
-
-    	init()
-    	{	
-
-    		images.size = 5;
-    		images[0] = canvas_0_0.image;
-    		images[1] = canvas_0_2.image;
-    		images[2] = canvas_1_1.image;
-    		images[3] = canvas_2_0.image;
-    		images[4] = canvas_2_2.image;
-
-
-    		canvi.size = 9;
-    		canvi[0] = canvas_0_0;
-    		canvi[1] = canvas_0_1;
-    		canvi[2] = canvas_0_2;
-    		canvi[3] = canvas_1_0;
-    		canvi[4] = canvas_1_1;
-    		canvi[5] = canvas_1_2;
-    		canvi[6] = canvas_2_0;
-    		canvi[7] = canvas_2_1;
-    		canvi[8] = canvas_2_2;
-
-    		wrap_count = 3;
-            options = LAYOUT_STRETCH_ITEMS;
-    	}
-
-        on_event:start()
+        on_event:init()
         {
-            this.setup_canvi();
+            wrap_count = 3;
         }
 
-    	on_event:finish()
-    	{
-            start_layout(event_time);
-    	}
-
-    	void resize_canvas(CanvasGadget canvas)
-    	{	
-			canvas.width  = int(0.33*test_window1.width);
-			canvas.height = int(0.33*test_window1.height);
-		}
-
-        void center_canvas(CanvasGadget canvas)
+        CanvasGadget canvas1
         {
-            canvas.offset_x = floor(canvas.width / 2);
-            canvas.offset_y = floor(canvas.height/ 2);
-        }
-
-    	time start_layout(time t)
-    	{  
-            this.set_targets();
-    		this.start(event_time+DRAW_TIME, PICTURE_SHOW_DURATION-DRAW_TIME);
-    		return this.expected_start_time;
-    	}
-
-    	void setup_canvi()
-    	{
-    		int index;
-            while(index < canvi.size)
+            on_event:init()
             {
-                resize_canvas(canvi[index]);
-                center_canvas(canvi[index]);
-                index++;
+                size = IM_WIDTH,IM_HEIGHT;
+                is_visible = true;
+                offset_x = width/2;
+                offset_y = height/2;
             }
-    	}
 
-        void reset()
-        {
-            int index = 0;
-            while(index < images.size)
+            ImageShape image
             {
-                images[index].image = "";
-                index++;
             }
         }
 
-        void set_targets()
+        CanvasGadget canvas2
         {
-            string[] image_filenames = attention_test_image_filenames[image_counter % attention_test_image_filenames.size];
-            image_counter++;
-            int index;
-            while (index < images.size)
+            on_event:init()
             {
-                bool should_be_visible = image_filenames[index] != "";
-                if(should_be_visible)
-                    images[index].image = stimuli_dir() + "images/" + image_filenames[index];
-                
-                images[index].is_visible= should_be_visible;
-                images[index].offset_x = -floor(images[index].actual_width/2);
-                images[index].offset_y = -floor(images[index].actual_height/2);
-                index++;
+                size = IM_WIDTH,IM_HEIGHT;
+                is_visible = true;
+                offset_x = width/2;
+                offset_y = height/2;
             }
+
+            ImageShape image
+            {
+            }
+        }
+
+        CanvasGadget canvas3
+        {
+            on_event:init()
+            {
+                size = IM_WIDTH,IM_HEIGHT;
+                is_visible = true;
+                offset_x = width/2;
+                offset_y = height/2;
+            }
+
+            ImageShape image
+            {
+            }
+        }
+
+        CanvasGadget canvas4
+        {
+            on_event:init()
+            {
+                size = IM_WIDTH,IM_HEIGHT;
+                is_visible = true;
+                offset_x = width/2;
+                offset_y = height/2;
+            }
+
+            ImageShape image
+            {
+            }
+        }
+
+        CanvasGadget canvas5
+        {
+            on_event:init()
+            {
+                size = IM_WIDTH,IM_HEIGHT;
+                is_visible = true;
+                offset_x = width/2;
+                offset_y = height/2;
+            }
+
+            ImageShape image
+            {
+            }
+        }
+
+        CanvasGadget canvas6
+        {
+            on_event:init()
+            {
+                size = IM_WIDTH,IM_HEIGHT;
+                is_visible = true;
+                offset_x = width/2;
+                offset_y = height/2;
+            }
+
+            ImageShape image
+            {
+            }
+        }
+
+        CanvasGadget canvas7
+        {
+            on_event:init()
+            {
+                size = IM_WIDTH,IM_HEIGHT;
+                is_visible = true;
+                offset_x = width/2;
+                offset_y = height/2;
+            }
+
+            ImageShape image
+            {
+            }
+        }
+
+        CanvasGadget canvas8
+        {
+            on_event:init()
+            {
+                size = IM_WIDTH,IM_HEIGHT;
+                is_visible = true;
+                offset_x = width/2;
+                offset_y = height/2;
+            }
+
+            ImageShape image
+            {
+            }
+        }
+
+        CanvasGadget canvas9
+        {
+            on_event:init()
+            {
+                size = IM_WIDTH,IM_HEIGHT;
+                is_visible = true;
+                offset_x = width/2;
+                offset_y = height/2;
+            }
+
+            ImageShape image
+            {
+            }
+        }
+
+        // centers a new image around the origin.
+        void set_image_centered(ImageShape im, string fn)
+        {
+            real scaling = 1.0;
+            real imwidth;
+            real imheight;
+
+            im.image    = image_dir + fn;
+
+            imwidth     = im.actual_width;
+            imheight    = im.actual_height;
+            
+            if (real(IM_WIDTH) / imwidth < scaling)
+                scaling = real(IM_WIDTH) /imwidth;
+            if (real(IM_HEIGHT) / imheight < scaling)
+                scaling = real(IM_HEIGHT) / imheight;
+
+            im.scaling_x = scaling;
+            im.scaling_y = scaling;
+
+            imwidth *= scaling;
+            imheight*= scaling;
+
+            if (im.offset_x != -imwidth/2)
+                im.offset_x = -imwidth/2;
+            if (im.offset_y != -imheight/2)
+                im.offset_y = -imheight/2;
+
+        }
+
+        void redraw_image(ImageShape im, int index)
+        {
+            int visible     = visibles[index];
+            bool is_visible = visible <= NUM_VISIBLE_IMAGES;
+            im.is_visible   = is_visible;
+            string stimulus = is_visible ? pictures[index] : "";
+            if (is_visible)
+                set_image_centered(im, stimulus);
+            else
+                im.image = "";
         }
     }
 
-    Timer overall_timer
+    Timer draw_timer
     {
+        int nth_draw;
+
+        void setup()
+        {
+            nth_draw = 0;
+        }
+
+        void redraw_images()
+        {
+            visibles.shuffle(0, -1);
+            pictures.shuffle(0, -1);
+            layout.redraw_image(layout.canvas1.image, 0);
+            layout.redraw_image(layout.canvas2.image, 1);
+            layout.redraw_image(layout.canvas3.image, 2);
+            layout.redraw_image(layout.canvas4.image, 3);
+            layout.redraw_image(layout.canvas5.image, 4);
+            layout.redraw_image(layout.canvas6.image, 5);
+            layout.redraw_image(layout.canvas7.image, 6);
+            layout.redraw_image(layout.canvas8.image, 7);
+            layout.redraw_image(layout.canvas9.image, 8);
+        }
+        
     	on_event:expire()
     	{
-            control.stop_clock(event_time);
-    		done(CONTINUE);
+            if (nth_draw < NUM_PIC_PRESENTATION) {
+                redraw_images();
+                start(expected_expire_time + PICTURE_SHOW_DURATION);
+                nth_draw++;
+            }
+            else
+                done(CONTINUE);
     	}
     }
 
@@ -144,24 +254,21 @@ Page attention_test_page
 	    on_event:finish()
 	    {
             control.hide_speaker_icon(FRONT_SIDE);
-	        this.play(event_time + (BEEP_ONSET_INTERVAL - BEEP_DURATION) );
+	        start(expected_finish_time + BEEP_ISI);
 	    }
 
 	    time play(time t)
 	    {
-			this.playback.device        = sound_output_device;
-			this.beep.frequency         = BEEP_FREQUENCY;
-			this.beep.content_duration  = BEEP_DURATION;
-			this.beep.fade_in_duration  = 5ms;
-			this.beep.fade_out_duration = 5ms;
+			playback.device        = sound_output_device;
+			beep.frequency         = BEEP_FREQUENCY;
+			beep.content_duration  = BEEP_DURATION;
+			beep.fade_in_duration  = 5ms;
+			beep.fade_out_duration = 5ms;
 
-			this.start(t);
+			start(t);
 			return audio.expected_start_time;
 	    }
-
-        
 	}
- 
 
     // Aborts any ongoing activity on this page and signals the initiator
     // of the trial that we're done.
@@ -170,6 +277,7 @@ Page attention_test_page
         // Just in case; abort presentation if still active.
        	layout.abort();
  		audio.abort();
+        cleanup();
 
         signal_target(msgid);   // tell caller we're done
         target = null;
@@ -183,16 +291,16 @@ Page attention_test_page
     {
         cleanup();
         experiment.setup_response_box();
+        draw_timer.setup();
 
-        attention_test_image_filenames.shuffle(0, -1);
+        pictures = attention_images;
     }
  
  
     // Performs cleaning up if necessary.
     void cleanup()
     {
-        image_counter = 0;
-        layout.reset();
+        layout.full_abort();
     }
  
  
@@ -201,8 +309,10 @@ Page attention_test_page
     {
         // Timing for the test:
         tref = test_window1.show_test_page(this, tref + 100ms);
-        tref = layout.start_layout(tref);
-        tref = audio.play(tref);
+        layout.start(tref);
+        audio.play(tref);
+
+        draw_timer.start(tref);
 
         control.begin_clock();
         control.release_clock(tref);
@@ -210,9 +320,6 @@ Page attention_test_page
 
         control.set_status("Attention Test");
         
-    	// Start the overall timer:
-    	overall_timer.start(tref+OVERALL_DURATION);
-
         // Mark out our next target:
         this.target       = caller;
     }
