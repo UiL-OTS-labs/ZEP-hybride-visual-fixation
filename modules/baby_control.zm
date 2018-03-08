@@ -262,7 +262,9 @@ Page control
         {
             init()
             {
-                fill_pattern_color = CONTROL_CANVAS_COLOR;
+                // In order to create work with OBS studio it is recommended
+                // to use blue. The canvas is a blue-screen.
+                fill_pattern_color = color:blue;
             }
 
 
@@ -289,6 +291,9 @@ Page control
 
                 counter.offset_x = actual_width - 50;
                 counter.offset_y = 50;
+
+                // Makes sure that the counter_background is also updated.
+                counter.update_text(counter.text);
 
                 counter_active.scaling_x  = LOOKING_ICON_SCALING;
                 counter_active.scaling_y = counter_active.scaling_x;
@@ -445,6 +450,18 @@ Page control
                 }
             }
 
+            RectangleShape counter_background
+            {
+                init()
+                {
+                    //corner_radius = 10;
+                    fill_pattern_color = color:black;
+                    is_visible = true;
+                    //height = 15;
+                    //width  = 300;
+                }
+            }
+
             TextShape counter
             {
                 init()
@@ -454,6 +471,17 @@ Page control
                     hor_alignment = ALIGN_END;
                     line_pattern_color = CONTROL_COUNTER_COLOR;
                     is_visible = true;
+                }
+
+                void update_text(string newtime)
+                {
+                    text = newtime;
+                    int width = string_width(text);
+                    int height= string_height(text);
+                    counter_background.offset_x = offset_x - width;
+                    counter_background.offset_y = offset_y;
+                    counter_background.width  = width;
+                    counter_background.height = height;
                 }
             }
         }
@@ -1218,8 +1246,9 @@ Page control
 
         on_event:expire()
         {
-            layout.canvas.counter.text = 
-                string(int(duration + (expire_time - timeref)) / 100) + "00";
+            layout.canvas.counter.update_text(
+                string(int(duration + (expire_time - timeref)) / 100) + "00"
+                );
             start(expected_expire_time + 100ms);
         }
     }
@@ -2321,14 +2350,14 @@ Page control
 
     void begin_clock(bool release=false)
     {
-            clock.abort();
-            clock.state = CLOCK_READY;
-            clock.released = release;
-            clock.timestamps.size = 0;
-            clock.duration = 0s;
-            clock.total_runtime = 0s;
-            layout.canvas.counter.text = "0";
-            hide_counter_active();
+        clock.abort();
+        clock.state = CLOCK_READY;
+        clock.released = release;
+        clock.timestamps.size = 0;
+        clock.duration = 0s;
+        clock.total_runtime = 0s;
+        layout.canvas.counter.update_text("0");
+        hide_counter_active();
     }
 
 
@@ -2345,7 +2374,7 @@ Page control
                 clock.duration += t - clock.timeref;
                 clock.total_runtime = t - clock.timestamps[0];
                 
-                layout.canvas.counter.text = string(int(clock.duration));
+                layout.canvas.counter.update_text(string(int(clock.duration)));
                 hide_counter_active();
             }
         }
@@ -2370,7 +2399,7 @@ Page control
         clock.abort();
         clock.state = CLOCK_IDLE;
         clock.released = false;
-        layout.canvas.counter.text = "";
+        layout.canvas.counter.update_text("");
         hide_counter_active();
     }
 
@@ -2436,7 +2465,7 @@ Page control
                 
                 clock.abort();
                 clock.duration += t - clock.timeref;
-                layout.canvas.counter.text = string(int(clock.duration));
+                layout.canvas.counter.update_text(string(int(clock.duration)));
                 hide_counter_active();
                 if(controlled_page != null)
                     signal(controlled_page, CLOCK_PAUSED);
@@ -2455,7 +2484,7 @@ Page control
             {
                 clock.duration += t - clock.timeref;
                 clock.timeref = t;
-                layout.canvas.counter.text = string(int(clock.duration));
+                layout.canvas.counter.update_text(string(int(clock.duration)));
             }
         }
 
