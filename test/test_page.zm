@@ -1,3 +1,5 @@
+import sound_direction;
+
 Page test_page
 {
     TestItem    item;           // trial control parameters
@@ -108,14 +110,40 @@ Page test_page
         {
             control.hide_speaker_icon(FRONT_SIDE);
             if(!check_if_we_are_done(event_time))
-                this.play(event_time + INTERSOUND_INTERVAL);
+                this.play(
+                        event_time + INTERSOUND_INTERVAL,
+                        SND_DIRECTION_FRONT
+                        );
         }
 
-        time play(time t)
+        time play(time t, SoundDirection dir)
         {
             this.playback.device = sound_output_device;
             this.clip.file =stimuli_dir() + "sounds/" + audio.file_names[0];
             first_to_last_shift(file_names);
+
+            // mute all channels.
+            playback.set_scaling(0.0);
+
+            if (dir & SND_DIRECTION_FRONT) {
+                playback.set_scaling(CHANNEL_FRONT_LEFT,  1.0);
+                playback.set_scaling(CHANNEL_FRONT_RIGHT, 1.0);
+            }
+            else {
+                playback.set_scaling(CHANNEL_FRONT_LEFT,  0.0);
+                playback.set_scaling(CHANNEL_FRONT_RIGHT, 0.0);
+            }
+
+            if (dir & SND_DIRECTION_LEFT)
+                playback.set_scaling(CHANNEL_REAR_LEFT, 1.0);
+            else
+                playback.set_scaling(CHANNEL_REAR_LEFT, 0.0);
+            
+            if (dir & SND_DIRECTION_RIGHT)
+                playback.set_scaling(CHANNEL_REAR_RIGHT, 1.0);
+            else
+                playback.set_scaling(CHANNEL_REAR_RIGHT, 0.0);
+
 
             this.start(t);
             return audio.expected_start_time;
@@ -200,7 +228,7 @@ Page test_page
 
         tref = layout.canvas.start_picture(tref, item.image_filename);
         audio.setup();
-        tref = audio.play(tref);
+        tref = audio.play(tref, SND_DIRECTION_FRONT);
 
         // control
         control.begin_clock();

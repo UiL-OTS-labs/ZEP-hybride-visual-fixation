@@ -1,5 +1,6 @@
 import std_sound_output_device;
 import stimuli;
+import sound_direction;
 
 
 // An image is considered visible when its number from this array is
@@ -8,7 +9,6 @@ int[..] visibles = {1,2,3,4,5,6,7,8,9};
 
 Page attention_test_page 
 {
-    
     // reference to the pictures in ./stimuli.zm
     string[] pictures;
     string   image_dir;
@@ -257,13 +257,35 @@ Page attention_test_page
 	        start(expected_finish_time + BEEP_ISI);
 	    }
 
-	    time play(time t)
+	    time play(time t, SoundDirection dir)
 	    {
 			playback.device        = sound_output_device;
 			beep.frequency         = BEEP_FREQUENCY;
 			beep.content_duration  = BEEP_DURATION;
 			beep.fade_in_duration  = 5ms;
 			beep.fade_out_duration = 5ms;
+
+            // mute all channels.
+            playback.set_scaling(0.0);
+
+            if (dir & SND_DIRECTION_FRONT) {
+                playback.set_scaling(CHANNEL_FRONT_LEFT,  1.0);
+                playback.set_scaling(CHANNEL_FRONT_RIGHT, 1.0);
+            }
+            else {
+                playback.set_scaling(CHANNEL_FRONT_LEFT,  0.0);
+                playback.set_scaling(CHANNEL_FRONT_RIGHT, 0.0);
+            }
+
+            if (dir & SND_DIRECTION_LEFT)
+                playback.set_scaling(CHANNEL_REAR_LEFT, 1.0);
+            else
+                playback.set_scaling(CHANNEL_REAR_LEFT, 0.0);
+            
+            if (dir & SND_DIRECTION_RIGHT)
+                playback.set_scaling(CHANNEL_REAR_RIGHT, 1.0);
+            else
+                playback.set_scaling(CHANNEL_REAR_RIGHT, 0.0);
 
 			start(t);
 			return audio.expected_start_time;
@@ -310,7 +332,7 @@ Page attention_test_page
         // Timing for the test:
         tref = test_window1.show_test_page(this, tref + 100ms);
         layout.start(tref);
-        audio.play(tref);
+        audio.play(tref, SND_DIRECTION_FRONT);
 
         draw_timer.start(tref);
 
