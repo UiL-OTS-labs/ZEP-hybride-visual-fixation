@@ -63,6 +63,17 @@ Experiment experiment
         if(check_participant_fields() != OK) terminate;
         if( load_stimuli() != OK) terminate;
         
+        // jacco wil stuff printen
+        int i;
+        
+        while (i < face_items.size)
+        {
+        
+            println(face_items[i].face_filename);
+            i ++ ;
+        }
+        
+        
         setup_response_box(CONTINUE);
 
         general_output.configured_habituation_threshold    = LOOKTIME_HABITUATION_THRESHOLD;
@@ -127,8 +138,8 @@ Experiment experiment
     {
         on_event:entry()
         {
-            // table number | table name | test items | frames for movie | habituated criteria
-            test::setup(1, "habituation", habituation_items, movie1_frames, true);
+            // table number | table name | test items | face items |frames for movie | habituated criteria
+            test::setup(1, "habituation", habituation_items, face_items, movie1_frames, true);
             test::action(this);
         }
     }
@@ -137,8 +148,8 @@ Experiment experiment
     {
         on_event:entry()
         {
-            // table number | table name | test items | frames for movie | habituated criteria  
-            test::setup(1, "test", test_items, movie2_frames, false);
+            // table number | table name | test items | face items | frames for movie | habituated criteria  
+            test::setup(1, "test", test_items, face_items, movie2_frames, false);
             test::action(this);
         }
     }
