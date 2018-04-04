@@ -1,14 +1,14 @@
 #### Tt stimuli! ####;;;
 id;sound1_filename;sound2_filename
-1;sEn_5.wav;saen_5.wav
-2;saen_5.wav;saen_1.wav
-3;saen_5.wav;saen_1.wav
-4;saen_5.wav;saen_1.wav
-5;sEn_5.wav;saen_5.wav
-6;saen_5.wav;saen_1.wav
-7;saen_5.wav;saen_1.wav
-8;sEn_5.wav;saen_5.wav
-9;saen_5.wav;saen_1.wav
-10;saen_5.wav;saen_1.wav
-11;saen_5.wav;saen_1.wav
-12;sEn_5.wav;saen_5.wav
+1;saen_5.wav;sEn_5.wav
+2;sEn_5.wav;sEn_1.wav
+3;sEn_5.wav;sEn_1.wav
+4;sEn_5.wav;sEn_1.wav
+5;saen_5.wav;sEn_5.wav
+6;sEn_5.wav;sEn_1.wav
+7;sEn_5.wav;sEn_1.wav
+8;saen_5.wav;sEn_5.wav
+9;sEn_5.wav;sEn_1.wav
+10;sEn_5.wav;sEn_1.wav
+11;sEn_5.wav;sEn_1.wav
+12;saen_5.wav;sEn_5.wav
