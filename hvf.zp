@@ -66,12 +66,12 @@ Experiment experiment
         // jacco wil stuff printen
         int i;
         
-        while (i < face_items.size)
-        {
+        //while (i < face_items.size)
+        //{
         
-            println(face_items[i].face_filename);
-            i ++ ;
-        }
+        //    println(face_items[i].face_filename);
+        //    i ++ ;
+        //}
         
         
         setup_response_box(CONTINUE);
