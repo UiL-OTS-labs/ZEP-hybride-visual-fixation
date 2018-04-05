@@ -108,15 +108,6 @@ int load_stimuli()
     return status;
 }
 
-// We want separate face stimuli, no longer as part of the csv.
-//t load_faces()
-//
-//  int status = OK;
-//  if( read_csv_face(face_items, face_csv_file_name() ) != OK) status = ERROR;
-//  if( check_face_files(face_items, face_csv_file_name() ) != OK) status = ERROR;
-
-//  return status;
-//
 
 // loads in csv into the specified target
 int read_csv(TestItem[] target, string source)
@@ -152,6 +143,27 @@ int read_csv_face(FaceItem[] target, string source)
 // Provides the csv file name based on participant data.
 string test_csv_file_name()
 {
+    string nativeness = 
+         expdb.participant.get_enum_field("contrast_native_nonnative");
+         //println ("\n\n\n" + nativeness + "\n\n\n");
+         
+         if (nativeness == "nonnative") 
+         {
+             string vari = "B";
+             println ("vari B");   
+         }
+         
+         else if (nativeness == "native") 
+         {
+             string vari = "A";
+             println ("vari B");
+         }
+         
+         else
+         { 
+             println("ERROR"); 
+         }          
+         
     string name =
             "test_" +
             expdb.participant.get_enum_field("contrast_native_nonnative") + "_" + 

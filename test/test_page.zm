@@ -160,8 +160,8 @@ Page test_page
             file_names.size = 2;
             file_names[0] = item.sound1_filename;
             file_names[1] = item.sound2_filename;
-            println (">>> audio one: " + file_names[0]);
-            println (">>> audio twe: " + file_names[1]);
+            //println (">>> audio one: " + file_names[0]);
+            //println (">>> audio twe: " + file_names[1]);
         }
 
         void first_to_last_shift(string[] array)
@@ -221,9 +221,8 @@ Page test_page
     { 
         // select one    
         int n = random(0, face_items.size - 1);
-        string facial = face_items[n].face_filename;
-        
-        println("selecting face: " + facial);
+        //string facial = face_items[n].face_filename;
+        //println("selecting face: " + facial);
         while (face_items[n].face_filename == old_face)
         {
             n = random(0, face_items.size - 1);
