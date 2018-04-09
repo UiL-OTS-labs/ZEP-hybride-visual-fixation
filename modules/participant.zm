@@ -8,7 +8,7 @@ void create_participant_fields()
 	
 	expdb.participant.add_enum_field("contrast_native_nonnative", "native|nonnative");
 	expdb.participant.add_enum_field("first_alternation_alt_nalt", "alt|nalt");
-	expdb.participant.add_enum_field("tokenfirst_1_2", "1|2");
+	expdb.participant.add_enum_field("group_one_two", "one|two");
 }
  
  
@@ -81,21 +81,21 @@ int check_participant_fields()
     }
 
     //if (!expdb.participant.has_enum_field("token_A1_A2_B1_B2"))
-    if (!expdb.participant.has_enum_field("tokenfirst_1_2"))
+    if (!expdb.participant.has_enum_field("group_one_two"))
     {
         //print_error("token_A1_A2_B1_B2 isn't available\n");
-        print_error("tokenfirst_1_2 isn't available\n");
+        print_error("group_one_two isn't available\n");
         return ERROR;
     }
     //if ( expdb.participant.get_enum_field("token_A1_A2_B1_B2") !="A1" &&
     //     expdb.participant.get_enum_field("token_A1_A2_B1_B2") !="A2" &&
     //     expdb.participant.get_enum_field("token_A1_A2_B1_B2") !="B1" &&
     //     expdb.participant.get_enum_field("token_A1_A2_B1_B2") !="B2")
-    if ( expdb.participant.get_enum_field("tokenfirst_1_2") !="1" &&
-         expdb.participant.get_enum_field("tokenfirst_1_2") !="2")
+    if ( expdb.participant.get_enum_field("group_one_two") !="one" &&
+         expdb.participant.get_enum_field("group_one_two") !="two")
        
 	{
-        print_error("tokenfirst_1_2 isn't filled out correctly.\n");
+        print_error("group_one_two isn't filled out correctly.\n");
         return ERROR;
 	}
     return OK;

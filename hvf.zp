@@ -63,17 +63,6 @@ Experiment experiment
         if(check_participant_fields() != OK) terminate;
         if( load_stimuli() != OK) terminate;
         
-        // jacco wil stuff printen
-        int i;
-        
-        //while (i < face_items.size)
-        //{
-        
-        //    println(face_items[i].face_filename);
-        //    i ++ ;
-        //}
-        
-        
         setup_response_box(CONTINUE);
 
         general_output.configured_habituation_threshold    = LOOKTIME_HABITUATION_THRESHOLD;

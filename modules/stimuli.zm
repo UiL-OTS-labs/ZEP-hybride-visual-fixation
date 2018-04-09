@@ -52,6 +52,7 @@ string[..] movie2_frames =
     "movie2/frame024.png",
 };
 
+
 record TestItem {
 
     int id;
@@ -143,32 +144,52 @@ int read_csv_face(FaceItem[] target, string source)
 // Provides the csv file name based on participant data.
 string test_csv_file_name()
 {
+    string vari;
+    string groupid;
+    
     string nativeness = 
          expdb.participant.get_enum_field("contrast_native_nonnative");
-         //println ("\n\n\n" + nativeness + "\n\n\n");
+         println ("\n\n\n" + nativeness + "\n\n\n");
          
-         if (nativeness == "nonnative") 
-         {
-             string vari = "B";
-             println ("vari B");   
-         }
+       if (nativeness == "nonnative") 
+    {
+        vari = "B";   
+    }
          
-         else if (nativeness == "native") 
-         {
-             string vari = "A";
-             println ("vari B");
-         }
+    else if (nativeness == "native") 
+    {
+        vari = "A";
+    }
          
-         else
-         { 
-             println("ERROR"); 
-         }          
-         
+    else
+    {
+    println("ERROR"); 
+    }
+
+    string group_choice = 
+        expdb.participant.get_enum_field("group_one_two");
+        
+    if (group_choice == "one")
+    {
+        groupid = "1";
+    }
+        
+    else if (group_choice == "two")
+    {
+        groupid = "2";  
+    }
+    else 
+    {
+        println("ERROR");
+    }
+    
+    println("group ID becomes: " + groupid);
+        
     string name =
             "test_" +
             expdb.participant.get_enum_field("contrast_native_nonnative") + "_" + 
             expdb.participant.get_enum_field("first_alternation_alt_nalt") + "_" + 
-            expdb.participant.get_enum_field("token_A1_A2_B1_B2")  + ".csv";
+            vari + groupid  + ".csv";
 
     return name;
 }
@@ -176,10 +197,49 @@ string test_csv_file_name()
 // Provides the csv file name based on participant data.
 string hab_csv_file_name()
 {
+    string vari;
+    string groupid;
+    
+    string nativeness = 
+         expdb.participant.get_enum_field("contrast_native_nonnative");
+         println ("\n\n\n" + nativeness + "\n\n\n");    
+         
+    if (nativeness == "nonnative") 
+    {
+        vari = "B";   
+    }
+         
+    else if (nativeness == "native") 
+    {
+        vari = "A";
+    }
+         
+    else
+    {
+    println("ERROR"); 
+    }
+
+    string group_choice = 
+        expdb.participant.get_enum_field("group_one_two");
+        
+    if (group_choice == "one")
+    {
+        groupid = "1";
+    }
+        
+    else if (group_choice == "two")
+    {
+        groupid = "2";  
+    }
+    else 
+    {
+        println("ERROR");
+    }
+        
     string name =
             "hab_" +
             expdb.participant.get_enum_field("contrast_native_nonnative") + "_" + 
-            expdb.participant.get_enum_field("token_A1_A2_B1_B2") + ".csv";
+            vari + groupid  + ".csv";
 
     return name;
 }
