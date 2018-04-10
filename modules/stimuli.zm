@@ -149,7 +149,6 @@ string test_csv_file_name()
     
     string nativeness = 
          expdb.participant.get_enum_field("contrast_native_nonnative");
-         println ("\n\n\n" + nativeness + "\n\n\n");
          
        if (nativeness == "nonnative") 
     {
@@ -182,8 +181,6 @@ string test_csv_file_name()
     {
         println("ERROR");
     }
-    
-    println("group ID becomes: " + groupid);
         
     string name =
             "test_" +
@@ -202,7 +199,6 @@ string hab_csv_file_name()
     
     string nativeness = 
          expdb.participant.get_enum_field("contrast_native_nonnative");
-         println ("\n\n\n" + nativeness + "\n\n\n");    
          
     if (nativeness == "nonnative") 
     {
