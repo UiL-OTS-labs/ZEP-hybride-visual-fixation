@@ -24,7 +24,10 @@ plugin zep_file;
 //alias ResponseBox ButtonBox;
 alias ResponseBox BeexyBox;
 
-string resolve_beexybox_address(string search_dir = "/dev", int search_depth = 10)
+string resolve_beexybox_address(
+	string search_dir = "/dev", 
+	int search_depth = 10
+	)
 {
 	int index;
 	while(index < search_depth)
@@ -36,7 +39,9 @@ string resolve_beexybox_address(string search_dir = "/dev", int search_depth = 1
 	}
 
 	// if we fail to find it
-	println("WARNING: did not find a response-box address in " + search_dir + " with depth " + search_depth + "!");
+	println("WARNING: did not find a response-box address in " + 
+		search_dir + " with depth " + search_depth + "!"
+		);
 
 	return search_dir + "/" + "ttyACM0";
 }

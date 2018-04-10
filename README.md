@@ -1,6 +1,6 @@
 # Hybrid Visual Fixation Experiment
 
-The hybrid visual fixation or habituation (`hvf`) can be used to access perception in younger children. It involves measuring looking times via scoring a video feed of the child. This experiment has been programmed as requested by [Maartje de Klerk][maartje] by [Chris van Run][chris] and later on by Jacco van Elst.
+The hybrid visual fixation or habituation (`hvf`) can be used to access perception in younger children. It involves measuring looking times via scoring a video feed of the child. This experiment has been programmed as requested by [Maartje de Klerk][maartje] by [Chris van Run][chris] and -- later on -- by [Jacco van Elst](https://www.uu.nl/staff/JCvanElst).
 
 # Parts
 There are two main parts.

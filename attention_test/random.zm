@@ -1,8 +1,13 @@
-void shuffle_targets(string[] image_candidates, ImageShape[] images, int number_of_targets)
+void shuffle_targets(
+	string[] image_candidates, 
+	ImageShape[] images, 
+	int number_of_targets
+	)
 {
 	if(images.size < number_of_targets)
 	{
-		println("WARNING: more targets defined then there are images to be assigned!");
+		println("WARNING: more targets defined then there are " + 
+			"images to be assigned!");
 	}
 
 	image_candidates.shuffle(0,-1);
@@ -11,7 +16,8 @@ void shuffle_targets(string[] image_candidates, ImageShape[] images, int number_
 	int index;
 	while (number_of_targets > 0 && index < images.size)
 	{
-		images[index].image = stimuli_dir() + "images/" + image_candidates[index % image_candidates.size];
+		images[index].image = stimuli_dir() + "images/" + 
+		    image_candidates[index % image_candidates.size];
 		index++;
 		number_of_targets--;
 	}
