@@ -73,8 +73,6 @@ Page attention_grabber_page
 
     }
 
-
-
     // Aborts any ongoing activity on this page and signals the initiator
     // of the trial that we're done.
     void done(int msgid)

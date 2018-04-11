@@ -1,14 +1,14 @@
 #### Tt stimuli! ####;;;
-id;image_filename;sound1_filename;sound2_filename
-1;faceA3.png;faap_5.wav;faap_5.wav
-2;faceA2.png;feep_5.wav;faap_5.wav
-3;faceA4.png;faap_5.wav;faap_5.wav
-4;faceA1.png;faap_5.wav;faap_5.wav
-5;faceA2.png;feep_5.wav;faap_5.wav
-6;faceA3.png;faap_5.wav;faap_5.wav
-7;faceA4.png;faap_5.wav;faap_5.wav
-8;faceA1.png;feep_5.wav;faap_5.wav
-9;faceA4.png;faap_5.wav;faap_5.wav
-10;faceA3.png;faap_5.wav;faap_5.wav
-11;faceA2.png;faap_5.wav;faap_5.wav
-12;faceA1.png;feep_5.wav;faap_5.wav
+id;sound1_filename;sound2_filename
+1;faap_5.wav;faap_1.wav
+2;feep_5.wav;faap_5.wav
+3;faap_5.wav;faap_1.wav
+4;faap_5.wav;faap_1.wav
+5;feep_5.wav;faap_5.wav
+6;faap_5.wav;faap_1.wav
+7;faap_5.wav;faap_1.wav
+8;feep_5.wav;faap_5.wav
+9;faap_5.wav;faap_1.wav
+10;faap_5.wav;faap_1.wav
+11;faap_5.wav;faap_1.wav
+12;feep_5.wav;faap_5.wav

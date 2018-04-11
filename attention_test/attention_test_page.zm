@@ -242,8 +242,14 @@ Page attention_test_page
 
     SoundChain audio
 	{
-	    BeepGenerator beep {}
-	 
+	    BeepGenerator beep 
+	    {
+	        on_event: init()
+	        {
+	            set_scaling(BEEP_VOLUME_RATIO);
+	        }
+	    }
+	    
 	    SoundPlayback playback {}
 	   
         on_event:start()

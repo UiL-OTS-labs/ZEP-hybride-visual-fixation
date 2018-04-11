@@ -297,8 +297,11 @@ Page control
 
                 counter_active.scaling_x  = LOOKING_ICON_SCALING;
                 counter_active.scaling_y = counter_active.scaling_x;
-                counter_active.offset_x = counter.offset_x-150-(counter_active.width/2);
-                counter_active.offset_y = counter.offset_y+counter.string_height("00000", true);
+                counter_active.offset_x = counter.offset_x-150-(
+                    counter_active.width/2
+                    );
+                counter_active.offset_y = counter.offset_y + 
+                    counter.string_height("00000", true);
 
                 counter_non_active.scaling_x =  counter_active.scaling_x;
                 counter_non_active.scaling_y = counter_non_active.scaling_x;
@@ -1382,8 +1385,6 @@ Page control
         {
             on_event:expire()
             {
-//                button_box.output(button_box.pattern[button_box.patternindex] & 
-//                    button_box.sectionmask);
                 if (++button_box.patternindex == button_box.pattern.size)
                     button_box.patternindex = 0;
                 start(expire_time + framedur);
@@ -1632,7 +1633,9 @@ Page control
             err = RECORD_LOCKED;
             if (verbose)
             {
-                ctrl_window.show_error("Selected participant record is locked.");
+                ctrl_window.show_error(
+                    "Selected participant record is locked."
+                    );
             }
         }
         if (!err)

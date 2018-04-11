@@ -24,28 +24,38 @@ Block task
         {
             int index;
             int look_counter = 1;
-            // The timestamps record both the stop and start time. Hence we need to parse them in pairs.
+            // The timestamps record both the stop and start time. 
+            //Hence we need to parse them in pairs.
             while(index < control.clock.timestamps.size-1)
             {
                 TestOutput output;
 
-                output.look_num           = look_counter;
-                output.looks_counted      = -9999;
-                output.duration_length_ms = control.clock.timestamps[index+1]-control.clock.timestamps[index];
+                output.look_num = look_counter;
+                output.looks_counted = -9999;
+                output.duration_length_ms = 
+                    control.clock.timestamps[index+1]- 
+                    control.clock.timestamps[index];
                 test_output_append(output);
 
                 look_counter++;
                 index = index+2;
             }
 
-            task.total_duration = test_output_save(output_table_name, output_table_number, output_table_name);
+            task.total_duration = test_output_save(
+                output_table_name, 
+                output_table_number, 
+                output_table_name);
 
             control.reset_clock();
         }
     }
 }
 
-void setup(int output_table_number, string output_table_name, string[] movie_frames)
+void setup(
+    int output_table_number, 
+    string output_table_name, 
+    string[] movie_frames
+    )
 {
     task.output_table_number = output_table_number;
     task.output_table_name = output_table_name;
