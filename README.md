@@ -3,7 +3,7 @@
 The hybrid visual fixation or habituation (`hvf`) can be used to access
 perception in younger children. It involves measuring looking times via scoring
 a video feed of the child. This experiment has been requested by
-[Maartje de Klerk](http://www.uu.nl/staff/MdeKlerk/0) adn has been programmed by
+[Maartje de Klerk](http://www.uu.nl/staff/MdeKlerk/0) and has been programmed by
  [Chris van Run](http://www.uu.nl/staff/CPAvanRun) and -- later on --
 [Jacco van Elst](https://www.uu.nl/staff/JCvanElst).
 
