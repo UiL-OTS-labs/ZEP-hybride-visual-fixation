@@ -85,7 +85,7 @@ created                    | ISO time stamp                           | 2023-03-
 gender_m_f                 | Gender                                   | "m" or "f"              |
 age_months                 | Age in months                            | All integers above 0    | Careful with this value
 type_risk_control          | Whether subject is 'special'              | "risk" or "control"     | E.g. dyslexia in family
-contrast_native_nonnative  | Are both sounds native?                  | "native" or "nonnative" | If native, select A tokens, otherwise B!
+contrast_native_nonnative  | Are both sounds native?                 | "native" or "nonnative" | If native, select 'type A' csv, otherwise type B!
 first_alternation_alt_nalt | Whether the first trial alternates or not | "alt" or "nalt"         | If "nalt", the first trial does not alternate, but the second does. And vice versa.
 group_one_two              | Determines which token is trained/tested | "one" or "two"          | I.e.: train on "faap" and contrast with "feep", or vice versa. (native example, given Dutch language).
 
