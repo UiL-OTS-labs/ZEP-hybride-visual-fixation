@@ -65,13 +65,16 @@ Experiment experiment
         
         setup_response_box(CONTINUE);
 
-        general_output.configured_habituation_threshold    = LOOKTIME_HABITUATION_THRESHOLD;
-        general_output.configured_attention_loss_threshold = LOOKTIME_PRE_POST_THRESHOLD;
+        general_output.configured_habituation_threshold = 
+            LOOKTIME_HABITUATION_THRESHOLD;
+        general_output.configured_attention_loss_threshold = 
+            LOOKTIME_PRE_POST_THRESHOLD;
 
         show_test_windows();
     }
 
-    // Is also called from within a lot of classes to refocus the control as primary target.
+    // Is also called from within a lot of classes to refocus the control as 
+    // primary target.
     void setup_response_box(int button_val=1)
     {
         if( !control.button_box.is_open)
@@ -119,7 +122,8 @@ Experiment experiment
 
         on_event:exit()
         {
-            general_output.total_look_time_pre= attention_test::task.total_duration;
+            general_output.total_look_time_pre = 
+                attention_test::task.total_duration;
         }
     }
 
@@ -127,8 +131,16 @@ Experiment experiment
     {
         on_event:entry()
         {
-            // table number | table name | test items | frames for movie | habituated criteria
-            test::setup(1, "habituation", habituation_items, movie1_frames, true);
+            // table number | table name | test items | face items | 
+            // frames for movie | habituated criteria
+            test::setup(
+                1, 
+                "habituation", 
+                habituation_items, 
+                face_items, 
+                movie1_frames, 
+                true
+                );
             test::action(this);
         }
     }
@@ -137,8 +149,15 @@ Experiment experiment
     {
         on_event:entry()
         {
-            // table number | table name | test items | frames for movie | habituated criteria  
-            test::setup(1, "test", test_items, movie2_frames, false);
+            // table number | table name | test items | face items | 
+            //frames for movie | habituated criteria  
+            test::setup(
+                1, 
+                "test", 
+                test_items, 
+                face_items, 
+                movie2_frames, 
+                false);
             test::action(this);
         }
     }
@@ -154,14 +173,22 @@ Experiment experiment
         on_event:exit()
         {
             // Calculate last parts of general_output
-            general_output.total_look_time_post = attention_test::task.total_duration;
+            general_output.total_look_time_post = 
+                attention_test::task.total_duration;
 
             real percentage_change;
-            if( general_output.total_look_time_post > 0s && general_output.total_look_time_pre > 0s)
-                percentage_change = real(general_output.total_look_time_post) / real(general_output.total_look_time_pre);
+            if (
+                general_output.total_look_time_post > 0s && 
+                general_output.total_look_time_pre > 0s
+                )
+            percentage_change = 
+                real(general_output.total_look_time_post) / 
+                real(general_output.total_look_time_pre);
 
-            general_output.attention_kept = percentage_change >= LOOKTIME_PRE_POST_THRESHOLD;
-            general_output.include = general_output.habituated && general_output.attention_kept;
+            general_output.attention_kept = percentage_change >= 
+                LOOKTIME_PRE_POST_THRESHOLD;
+            general_output.include = general_output.habituated && 
+                general_output.attention_kept;
 
             // Make sure it is written away.
             save_general_output();

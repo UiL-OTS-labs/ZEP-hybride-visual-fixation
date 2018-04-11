@@ -1,14 +1,14 @@
 #### Tt stimuli! ####;;;;
-id;image_filename;sound1_filename;sound2_filename
-1;faceB1.png;sEn_1.wav;sEn_1.wav
-2;faceB1.png;sEn_2.wav;sEn_2.wav
-3;faceB1.png;sEn_3.wav;sEn_3.wav
-4;faceB2.png;sEn_4.wav;sEn_4.wav
-5;faceB2.png;sEn_1.wav;sEn_1.wav
-6;faceB2.png;sEn_2.wav;sEn_2.wav
-7;faceB3.png;sEn_3.wav;sEn_3.wav
-8;faceB3.png;sEn_4.wav;sEn_4.wav
-9;faceB3.png;sEn_1.wav;sEn_1.wav
-10;faceB4.png;sEn_2.wav;sEn_2.wav
-11;faceB4.png;sEn_3.wav;sEn_3.wav
-12;faceB4.png;sEn_4.wav;sEn_4.wav
+id;sound1_filename;sound2_filename
+1;sEn_1.wav;sEn_1.wav
+2;sEn_2.wav;sEn_2.wav
+3;sEn_3.wav;sEn_3.wav
+4;sEn_4.wav;sEn_4.wav
+5;sEn_1.wav;sEn_1.wav
+6;sEn_2.wav;sEn_2.wav
+7;sEn_3.wav;sEn_3.wav
+8;sEn_4.wav;sEn_4.wav
+9;sEn_1.wav;sEn_1.wav
+10;sEn_2.wav;sEn_2.wav
+11;sEn_3.wav;sEn_3.wav
+12;sEn_4.wav;sEn_4.wav
