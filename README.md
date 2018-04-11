@@ -125,17 +125,17 @@ identical speech sounds, made by the same speaker (voice).
 
 #### Testing contrasts for type "feep" (contrast with "faap").
 In the testing phase, a different flow starts. Let's say this is a "nalt"
-version. Here, *version 5* is *new* to the participant, so the contrast is
-either on token, or on version, with the newest always presented first in the
-trial tuple.
+version. Here, *version 5* is *new* to the participant (so the contrast is
+either on type, or on token), with the newest always presented first in the
+token tuple.
 
 id | sound 1    | sound 2   | extra (not in .csv)
 ---|------------|-----------|---------------------------------------------------
 1  | feep5      | feep1     | 'feep' version 5 has never been heard before
-2  | f**aa**p5  | feep**5** | both versions are 'new', the first *actual* contrast in terms of tokens
+2  | f**aa**p5  | feep**5** | both versions are 'new', the first *actual* contrast in terms of **types**
 3  | feep5      | feep1     |
 4  | feep5      | feep1     |
-5  | f**aa**p5  | feep5     | alternation (token contrast) on 5
+5  | f**aa**p5  | feep5     | alternation (type  contrast) on 5
 6  | feep5      | feep1     |
 7  | feep5      | feep1     |
 8  | f**aa**p5  | feep5     | alternation on 8
@@ -169,7 +169,7 @@ for instance)
 - This experiment unarchived.
 - A camera to record participant.
 - A method to overlay the camera stream with the control window.
-- A BeexyBox response box or for less accurate look-time measurements: a 
+- A BeexyBox response box or for less accurate look-time measurements: a
 keyboard.
 
 # Running the experiment
