@@ -70,7 +70,7 @@ void generate_and_write_summary(TestOutput[] test_output, int table_number, stri
 
 		if (current_look.trial_num == test_output[index].trial_num )
 		{
-			cumulative_duration = cumulative_duration+test_output[index].duration_length_ms;
+			cumulative_duration = cumulative_duration + test_output[index].duration_length_ms;
 			looks_counted++;
 		}
 		else

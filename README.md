@@ -44,7 +44,7 @@ Each file name needs to be in a test or a habitiuation version (prefix: 'hab_' o
 # Tokens, speakers and trials (specific)
 In the current setup, 4 speakers have been recorded, reading the tokens aloud. Of one speaker, multiple versions of the same token are used in the testing phase, so we have the same voice, reading the token aloud a bit differently. In this operationalisation, sound file names in the .csv file contents like "feep1.wav" and "feep5.wav" imply: token "feep", the *same voice*, *different versions*.
 
-example:
+# Example
 
 
 #### Habituation on "feep" token

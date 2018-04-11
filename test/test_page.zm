@@ -221,13 +221,9 @@ Page test_page
     { 
         // select one    
         int n = random(0, face_items.size - 1);
-        //string facial = face_items[n].face_filename;
-        //println("selecting face: " + facial);
         while (face_items[n].face_filename == old_face)
         {
-            n = random(0, face_items.size - 1);
-            println(n);
-            
+            n = random(0, face_items.size - 1);         
         }
         faceitem = face_items[n];
         old_face = face_items[n].face_filename;
@@ -235,7 +231,6 @@ Page test_page
                 
                  
             
-        
     // Starts a trial.
     void action(Object caller, TestItem it, time tref)
     {

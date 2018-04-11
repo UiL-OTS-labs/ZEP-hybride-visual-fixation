@@ -2,14 +2,23 @@
 // Creates required participant record fields.
 void create_participant_fields()
 {
-	expdb.participant.add_enum_field("gender_m_f", "m|f");
-	expdb.participant.add_int_field("age_months");
-	expdb.participant.add_enum_field("type_risk_control", "risk|control");
+	expdb.participant.add_enum_field(
+        "gender_m_f", 
+        "m|f");
+	expdb.participant.add_int_field(
+        "age_months");
+	expdb.participant.add_enum_field(
+        "type_risk_control", 
+        "risk|control");
 	expdb.participant.add_enum_field(
         "contrast_native_nonnative", 
         "native|nonnative");
-	expdb.participant.add_enum_field("first_alternation_alt_nalt", "alt|nalt");
-	expdb.participant.add_enum_field("group_one_two", "one|two");
+	expdb.participant.add_enum_field(
+        "first_alternation_alt_nalt", 
+        "alt|nalt");
+	expdb.participant.add_enum_field(
+        "group_one_two", 
+        "one|two");
 }
  
  
@@ -31,10 +40,11 @@ int check_participant_fields()
         return ERROR;
     }
 
-    // Test whether we have age_months and if it is set correctly
+    // younger than 1 month is not likely, 
+    //0 months was valid a option, but failed later on, so set to 1
     if (!(expdb.participant.has_int_field("age_months") &&
-          expdb.participant.get_int_field("age_months") > 0)
-          )
+          expdb.participant.get_int_field("age_months") > 1)
+        )
     {
         print_error("age_months is not filled out correctly\n");
         return ERROR;
@@ -90,7 +100,6 @@ int check_participant_fields()
 
     if (!expdb.participant.has_enum_field("group_one_two"))
     {
-        //print_error("token_A1_A2_B1_B2 isn't available\n");
         print_error("group_one_two isn't available\n");
         return ERROR;
     }

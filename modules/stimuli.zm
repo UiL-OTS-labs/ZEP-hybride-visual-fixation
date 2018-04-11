@@ -183,10 +183,14 @@ string test_csv_file_name()
     }
         
     string name =
-            "test_" +
-            expdb.participant.get_enum_field("contrast_native_nonnative") + "_" + 
-            expdb.participant.get_enum_field("first_alternation_alt_nalt") + "_" + 
-            vari + groupid  + ".csv";
+        "test_" + 
+        expdb.participant.get_enum_field("contrast_native_nonnative") + 
+        "_" + 
+        expdb.participant.get_enum_field("first_alternation_alt_nalt") + 
+        "_" + 
+        vari + 
+        groupid  + 
+        ".csv";
 
     return name;
 }
@@ -234,8 +238,11 @@ string hab_csv_file_name()
         
     string name =
             "hab_" +
-            expdb.participant.get_enum_field("contrast_native_nonnative") + "_" + 
-            vari + groupid  + ".csv";
+            expdb.participant.get_enum_field("contrast_native_nonnative") + 
+            "_" + 
+            vari + 
+            groupid  + 
+            ".csv";
 
     return name;
 }
@@ -258,13 +265,12 @@ int check_files(TestItem[] target, string filename)
     int index = 0;
     while(index < target.size)
     {
-        //string image_path = stimuli_dir() + "images/" + target[index].image_filename;
-        //if( !file_okay(image_path)) status = ERROR;
-
-        string sound1_path = stimuli_dir() + "sounds/" + target[index].sound1_filename;
+        string sound1_path = stimuli_dir() + "sounds/" + 
+            target[index].sound1_filename;
         if( !file_okay(sound1_path)) status = ERROR;
 
-        string sound2_path = stimuli_dir() + "sounds/" + target[index].sound2_filename;
+        string sound2_path = stimuli_dir() + "sounds/" + 
+            target[index].sound2_filename;
         if( !file_okay(sound1_path)) status = ERROR;
         
         index++;
@@ -283,7 +289,8 @@ int check_face_files(FaceItem[] target, string filename)
     int index = 0;
     while(index < target.size)
     {
-        string image_path = stimuli_dir() + "images/" + target[index].face_filename;
+        string image_path = stimuli_dir() + "images/" + 
+            target[index].face_filename;
         if( !file_okay(image_path)) status = ERROR;
 
         
