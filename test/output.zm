@@ -34,23 +34,37 @@ void output_append(TestOutput[] test_output, TestOutput data)
  
  
 // Writes test output table contents to CSV file and clears the table.
-void output_save(TestOutput[] test_output, string table_name, int table_number, string table_file_name = "")
+void output_save(
+		TestOutput[] test_output, 
+		string table_name, 
+		int table_number, 
+		string table_file_name = "")
 {
 	if(table_file_name == "")
 		table_file_name = namespace_name;
 
     // Append table to CSV file (create if non-existent). The filename format
     // is: <dbname>/<dbnum>/<expname>/<phasename>/ses<sesid>-<tblnum>.csv
-    string fn = expdb.experiment.session.create_table(table_file_name, table_number);
+    string fn = expdb.experiment.session.create_table(
+    	table_file_name, 
+    	table_number
+    	);
     test_output.append(fn, table_file_name);
 
-	generate_and_write_summary(test_output, table_number, "summary_" + table_file_name);
+	generate_and_write_summary(
+		test_output, 
+		table_number, 
+		"summary_" + table_file_name
+		);
 
 	test_output.size = 0; // Clear after making a summary.
 }
 
 // report summary
-void generate_and_write_summary(TestOutput[] test_output, int table_number, string table_file_name)
+void generate_and_write_summary(
+		TestOutput[] test_output, 
+		int table_number, 
+		string table_file_name)
 {
 	if(test_output.size < 1)
 	{
@@ -70,7 +84,8 @@ void generate_and_write_summary(TestOutput[] test_output, int table_number, stri
 
 		if (current_look.trial_num == test_output[index].trial_num )
 		{
-			cumulative_duration = cumulative_duration + test_output[index].duration_length_ms;
+			cumulative_duration = cumulative_duration + 
+				test_output[index].duration_length_ms;
 			looks_counted++;
 		}
 		else
@@ -89,7 +104,7 @@ void generate_and_write_summary(TestOutput[] test_output, int table_number, stri
 			summary.size = summary.size + 1;
 			summary[summary.size - 1] = new_output;
 
-			// Set new values for cumulation <= yes, this is a word; I looked it up.
+			// Set new values for cumulation
 			current_look = test_output[index];
 			cumulative_duration = test_output[index].duration_length_ms;
 			looks_counted = 1;
@@ -115,7 +130,10 @@ void generate_and_write_summary(TestOutput[] test_output, int table_number, stri
 		index++;
 	}
 
-	string fn = expdb.experiment.session.create_table(table_file_name, table_number);
+	string fn = expdb.experiment.session.create_table(
+					table_file_name, 
+					table_number
+					);
     summary.append(fn, table_file_name);
 }
 
