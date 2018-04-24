@@ -105,7 +105,7 @@ Block task
         dur base_level_looktime = (
             trial_total_looktime[0] + 
             trial_total_looktime[1] + 
-            trial_total_looktime[3] ) / 3;
+            trial_total_looktime[2] ) / 3;
 
         dur current_level_looktime = (
             trial_total_looktime[trial_total_looktime.size-3] + 
