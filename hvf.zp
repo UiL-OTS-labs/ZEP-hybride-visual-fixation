@@ -1,21 +1,24 @@
 /******************************************************************************\
 FILE:           hvf.zm
 AUTHOR:         CPA van Run <C.P.A.vanrun@uu.nl>
-ADAPTED BY:     -
+ADAPTED BY:     JC van Elst
 
 DESCRIPTION:
 
-General idea of the experiment is to have two windows on two screens. 
-One that is towards a participant (test window) and another that is visibile to the researcher (control window).
-The test windows tries to combine visual and auditive stimuli to get the attention of the child.
-The control window has a large black area to be used for overlaying it on a video stream.
-The control window furthermore has features to allow measuring the look time of the child.
+General idea of the experiment is to have two windows on two screens.
+One that is towards a participant (test window) and another that is visibile 
+to the researcher (control window).The test windows combines visual and 
+auditive stimuli to attrackt the attention of the infant.
+The control window has a large blue area to be used for overlaying it on a 
+video stream. The control window furthermore has features to allow measuring 
+the looking time of the child.
 
 1. Pre-test phase
     Attention test to score attention.
 
 2. Habituation phase
-    After a certain amount a drop in looktime duration is registered as habituation to have occured.
+    After a certain amount a drop in looktime duration is registered as 
+    habituation to have occured.
 
 3. Test phase
     Main goal is recording looking time on certain cue's.
@@ -24,10 +27,11 @@ The control window furthermore has features to allow measuring the look time of 
     Attention test to score attention.
 
 INPUT:
-In stimuli there are csv files. The name of the csv files are expected to be build from the three determinators 
-contrast (native/nonnative), first alteration (alt/nalt), and token (fep/fap). 
-Furthermore each list needs to be in a test and habitiuation version (prefix: 'hab_' or 'test_').
-For instance: test_native_alt_fep.csv or hab_native_nalt_fap.csv.
+In stimuli there are csv files. The name of the csv files are expected to be 
+build from the three determinators contrast (A => native/ B => nonnative), 
+first alteration (alt/nalt), and token (fep/fap). Furthermore each list needs 
+to be in a test and habitiuation version (prefix: 'hab_' or 'test_').
+For instance: test_native_alt_A1.csv or hab_native_nalt_B2.csv.
 
 OUTPUT:
 Tables that contain individual looks.
@@ -36,6 +40,7 @@ Tables that contain inclusion criterion results.
 
 HISTORY:
 2016-07-14 CvR Created as part of the hvf experiment.
+2018-04-25 JvE Fixed some issues and rewrote the csv logic.
 
 \******************************************************************************/
 
