@@ -104,45 +104,61 @@ implies contrasts on ID 2, 5, 8 and 12.
 In the current setup, 4 speakers have been recorded, reading the tokens aloud.
 Of one speaker, multiple versions of the same type are used in the testing
 phase, so we have the same voice, reading the word aloud a bit differently.
-In this operationalization, sound file names in the .csv file contents like
+~~In this operationalization, sound file names in the .csv file contents like
 "feep1.wav" and "feep5.wav" imply: ttype "feep", the *same voice*,
-*different versions*, i.e. different tokens.
+*different versions*, i.e. different tokens.~~
+
+**Update**: a new naming convention has been introduced in order to work towards a more generic way of using and reusing this type of experiment.
+
+The new format for naming stimuli becomes:
+
+Speaker*speakerID*\_*type*\_*token*
+
+eg.
+
+	'Speaker1_faap_1' ---------> The first token by speaker 1 for type 'faap'
+	'SpeakerJohnDoe_sEn_23' ---> The 23d token by speaker JohnDoe for type 'sEn'
+
+
+This way, sounds and coding of sounds is better identifiable at a human **and** computer science level.
+
 
 # Example
 
-#### Habituation on "feep" tokentuples
+#### Habituation on 'feep' tokentuples
 feep1 = sound 'feep' by speaker 1, tokens in tuple are identical.
 
-id | sound 1 | sound 2
----|---------|---------
-1  | feep1   | feep1
-2  | feep2   | feep2
-3  | feep3   | feep3
-... (etc. until habituated. Version 5 is not used during habituation)
+id | sound 1              | sound 2
+---|----------------------|-------------------------------------
+1  | Speaker1_feep_1.wav  | Speaker1_feep_1.wav
+2  | Speaker2_feep_1.wav  | Speaker2_feep_1.wav
+3  | Speaker3_feep_1.wav  | Speaker3_feep_1.wav
+
+
+... (etc. until habituated. The second token (Speaker1_feep_2) is not used during
+habituation)
 
 Ie.: for each item in the csv/list, a tokentuple consists of two
-identical speech sounds, made by the same speaker (voice).
+identical speech sounds (types), made by the same speaker (voice).
 
 #### Testing contrasts for type "feep" (contrast with "faap").
 In the testing phase, a different flow starts. Let's say this is a "nalt"
-version. Here, *version 5* is *new* to the participant (so the contrast is
-either on type, or on token), with the newest always presented first in the
-token tuple.
+version. Here, *token (version) 2* is *new* to the participant (so the contrast is on **type only**), with the newest type always presented first in the token-tuple.
 
-id | sound 1    | sound 2   | extra (not in .csv)
----|------------|-----------|---------------------------------------------------
-1  | feep5      | feep1     | 'feep' version 5 has never been heard before
-2  | f**aa**p5  | feep**5** | both versions are 'new', the first *actual* contrast in terms of **types**
-3  | feep5      | feep1     |
-4  | feep5      | feep1     |
-5  | f**aa**p5  | feep5     | alternation (type  contrast) on 5
-6  | feep5      | feep1     |
-7  | feep5      | feep1     |
-8  | f**aa**p5  | feep5     | alternation on 8
-9  | feep5      | feep1     |
-10 | feep5      | feep1     |
-11 | feep5      | feep1     |
-12 | f**aap**5  | feep5     | alternation on 12
+id | sound 1    			      | sound 2   			      | extra (not in .csv)
+---|------------------------|-----------------------|----------------------------------------
+1  | Speaker1\_feep**\_2**  | Speaker1\_feep**\_2**  | Note the 'feep' token (version) 2 has not been heard before (token 1 was used in habituation)
+2  | Speaker1\_**faap**\_2  | Speaker1_feep_2       |  the first actual contrast in terms of types
+3  | Speaker1_feep_2        | Speaker1_feep_2       |
+4  | Speaker1_feep_2        | Speaker1_feep_2       |
+5  | Speaker1\_**faap**\_2  | Speaker1_feep_2       | alternation (type  contrast) on 5
+6  | Speaker1_feep_2        | Speaker1_feep_2       |
+7  | Speaker1_feep_2        | Speaker1_feep_2       |
+8  | Speaker1\_**faap**\_2  | Speaker1_feep_2       | alternation on 8
+9  | Speaker1_feep_2        | Speaker1_feep_2       |
+10 | Speaker1_feep_2        | Speaker1_feep_2       |
+11 | Speaker1_feep_2        | Speaker1_feep_2       |
+12 | Speaker1\_**faap**\_2  | Speaker1_feep_2       | alternation on 12
 
 # Output
 One can get output by running `zepdbextract` in the experiment directory.
