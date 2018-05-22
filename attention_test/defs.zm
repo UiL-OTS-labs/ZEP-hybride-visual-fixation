@@ -1,6 +1,6 @@
 const real BEEP_FREQUENCY        = 330;
 const dur  BEEP_DURATION         = 250ms;
-const real BEEP_VOLUME_RATIO     = 0.5; // beep volume (1 = full loudness, 0 = inaudible)
+const real BEEP_VOLUME_RATIO     = 0.25; // beep volume (1 = full loudness, 0 = inaudible)
 const dur  BEEP_ISI              = 1000ms;
 const dur  PICTURE_SHOW_DURATION = 2000ms;
 
