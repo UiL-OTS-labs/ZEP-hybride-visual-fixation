@@ -62,8 +62,26 @@ record TestItem {
     string sound2_filename;
 }
 
+record HabItem {
+
+    int id;
+    string sound1_filename;
+    string sound2_filename;
+    string sound3_filename;
+    string sound4_filename;
+    string sound5_filename;
+            
+    string sound6_filename;
+    string sound7_filename;
+    string sound8_filename;
+    string sound9_filename;
+    string sound10_filename;
+    string sound11_filename;
+    string sound12_filename; 
+}
+
 // arrays for hab and test
-TestItem[..] habituation_items;
+HabItem[..]  habituation_items;
 TestItem[..] test_items;
 
 //record for faces?

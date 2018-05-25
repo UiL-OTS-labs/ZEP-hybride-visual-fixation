@@ -17,9 +17,40 @@ record TestOutput
 	string sound1_filename;
 	string sound2_filename;
 }
+
+record HabOutput
+{
+	int trial_num;
+
+	int look_num;       
+	int looks_counted;
+
+	dur duration_length_ms;
+
+	// Stimulus description:
+	int id;
+	
+	//string image_filename;
+	string image_filename;
+	string sound1_filename;
+	string sound2_filename;
+	string sound3_filename;
+	string sound4_filename;
+    string sound5_filename;
+	string sound6_filename;
+	string sound7_filename;
+	string sound8_filename;
+	string sound9_filename;
+	string sound10_filename;
+	string sound11_filename;
+	string sound12_filename;
+}
  
 // Test output table.
 TestOutput[..] test_output;
+ 
+// Test output table.
+HabOutput[..] hab_output;
  
  
 //------------------------------------------------------------------------------
@@ -30,6 +61,13 @@ void output_append(TestOutput[] test_output, TestOutput data)
 {
     test_output.size = test_output.size + 1;
     test_output[test_output.size-1] = data;
+}
+
+// Appends one row of data to hab output table.
+void hab_output_append(TestOutput[] hab_output, HabOutput data)
+{
+    hab_output.size = test_output.size + 1;
+    hab_output[hab_output.size-1] = data;
 }
  
  
@@ -50,6 +88,33 @@ void output_save(
     	table_number
     	);
     test_output.append(fn, table_file_name);
+
+	generate_and_write_summary(
+		test_output, 
+		table_number, 
+		"summary_" + table_file_name
+		);
+
+	test_output.size = 0; // Clear after making a summary.
+}
+
+// Writes habituation output table contents to CSV file and clears the table.
+void hab_output_save(
+		HabOutput[] hab_output, 
+		string table_name, 
+		int table_number, 
+		string table_file_name = "")
+{
+	if(table_file_name == "")
+		table_file_name = namespace_name;
+
+    // Append table to CSV file (create if non-existent). The filename format
+    // is: <dbname>/<dbnum>/<expname>/<phasename>/ses<sesid>-<tblnum>.csv
+    string fn = expdb.experiment.session.create_table(
+    	table_file_name, 
+    	table_number
+    	);
+    hab_output.append(fn, table_file_name);
 
 	generate_and_write_summary(
 		test_output, 
@@ -94,7 +159,7 @@ void generate_and_write_summary(
 			
 			new_output.trial_num          = current_look.trial_num;
 			new_output.look_num           = -1;       
-			new_output.looks_counted       = looks_counted; 
+			new_output.looks_counted      = looks_counted; 
 			new_output.duration_length_ms = cumulative_duration;
 			new_output.id                 = current_look.id;
 			new_output.image_filename     = current_look.image_filename;
@@ -116,7 +181,7 @@ void generate_and_write_summary(
 		
 			new_output.trial_num          = current_look.trial_num;
 			new_output.look_num           = -9999;       
-			new_output.looks_counted       = looks_counted; 
+			new_output.looks_counted      = looks_counted; 
 			new_output.duration_length_ms = cumulative_duration;
 			new_output.id                 = current_look.id;
 			new_output.image_filename     = current_look.image_filename;
@@ -137,7 +202,115 @@ void generate_and_write_summary(
     summary.append(fn, table_file_name);
 }
 
+// report summary
+void hab_generate_and_write_summary(
+		HabOutput[] hab_output, 
+		int table_number, 
+		string table_file_name)
+{
+	if(hab_output.size < 1)
+	{
+		println("Skipping summary, nothing so summarise!");
+		return;
+	}
+
+	HabOutput[..] summary;
+
+	HabOutput current_look = hab_output[0];
+	dur cumulative_duration = hab_output[0].duration_length_ms;
+	int looks_counted = 1;
+
+	int index=1;
+	while( index < hab_output.size)
+	{
+
+		if (current_look.trial_num == hab_output[index].trial_num )
+		{
+			cumulative_duration = cumulative_duration + 
+				hab_output[index].duration_length_ms;
+			looks_counted++;
+		}
+		else
+		{
+			HabOutput new_output;
+			
+			new_output.trial_num          = current_look.trial_num;
+			new_output.look_num           = -1;       
+			new_output.looks_counted      = looks_counted; 
+			new_output.duration_length_ms = cumulative_duration;
+			new_output.id                 = current_look.id;
+			new_output.image_filename     = current_look.image_filename;
+			new_output.sound1_filename    = current_look.sound1_filename;
+			new_output.sound2_filename    = current_look.sound2_filename;
+			new_output.sound3_filename    = current_look.sound3_filename;
+			new_output.sound4_filename    = current_look.sound4_filename;
+
+			new_output.sound5_filename    = current_look.sound5_filename;
+			new_output.sound6_filename    = current_look.sound6_filename;
+			new_output.sound7_filename    = current_look.sound7_filename;
+			new_output.sound8_filename    = current_look.sound8_filename;
+
+
+			new_output.sound9_filename    = current_look.sound9_filename;
+			new_output.sound10_filename   = current_look.sound10_filename;
+			new_output.sound11_filename   = current_look.sound11_filename;
+			new_output.sound12_filename   = current_look.sound12_filename;
+
+			summary.size = summary.size + 1;
+			summary[summary.size - 1] = new_output;
+
+			// Set new values for cumulation
+			current_look = hab_output[index];
+			cumulative_duration = hab_output[index].duration_length_ms;
+			looks_counted = 1;
+		}
+
+		if( is_last_trial(index, new_output) )
+		{
+			HabOutput new_output;
+			
+			new_output.trial_num          = current_look.trial_num;
+			new_output.look_num           = -9999;       
+			new_output.looks_counted      = looks_counted; 
+			new_output.duration_length_ms = cumulative_duration;
+			new_output.id                 = current_look.id;
+			new_output.image_filename     = current_look.image_filename;
+			new_output.sound1_filename    = current_look.sound1_filename;
+			new_output.sound2_filename    = current_look.sound2_filename;
+			new_output.sound3_filename    = current_look.sound3_filename;
+			new_output.sound4_filename    = current_look.sound4_filename;
+
+			new_output.sound5_filename    = current_look.sound5_filename;
+			new_output.sound6_filename    = current_look.sound6_filename;
+			new_output.sound7_filename    = current_look.sound7_filename;
+			new_output.sound8_filename    = current_look.sound8_filename;
+
+
+			new_output.sound9_filename    = current_look.sound9_filename;
+			new_output.sound10_filename   = current_look.sound10_filename;
+			new_output.sound11_filename   = current_look.sound11_filename;
+			new_output.sound12_filename   = current_look.sound12_filename;
+
+			summary.size = summary.size + 1;
+			summary[summary.size - 1] = new_output;
+		}
+
+		index++;
+	}
+
+	string fn = expdb.experiment.session.create_table(
+					table_file_name, 
+					table_number
+					);
+    summary.append(fn, table_file_name);
+}
+
 bool is_last_trial(int index, TestOutput[] test_output)
 {
 	return index == test_output.size-1;
+}
+
+bool hab_is_last_trial(int index, HabOutput[] hab_output)
+{
+	return index == hab_output.size-1;
 }
