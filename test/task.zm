@@ -9,12 +9,14 @@ Block task
     int output_table_number;
     string output_table_name;
     bool check_for_habituation;
-
+    //bool is_hab_item;
     string[] movie_frames;
 
     dur[..] trial_total_looktime;
 
     TestItem[] test_items;
+    
+    HabItem[] hab_items;
     
     FaceItem[] face_items;
 
@@ -32,9 +34,9 @@ Block task
         }
     }
 
-    Trial trial
+    Trial habtrial
     {
-        TestItem item;
+        HabItem item;
 
         SubTrial attention_getter
         
@@ -46,13 +48,89 @@ Block task
             }
         }
 
-        SubTrial test
+        SubTrial hab
         {
             on_event:entry()
             {
-                test_page.setup();
-                trial.item = test_items[task.cycle];
-                test_page.action(this, trial.item, event_time);
+                test_page.hab_setup();
+                habtrial.item = hab_items[task.cycle];
+                test_page.hab_action(this, habtrial.item, event_time); 
+            }
+
+            on_event:exit()
+            {
+                trial_total_looktime.size = trial_total_looktime.size+1;
+                trial_total_looktime[trial_total_looktime.size-1] = 
+                    control.clock.duration;
+
+                if(check_for_habituation && habituation_is_reached())
+                    task.num_cycles = 0;
+            }
+        }
+
+        on_event:exit()
+        {
+            int index;
+            int look_counter = 1;
+            // The timestamps record both the stop and start time. 
+            // Hence we need to parse them in pairs.
+            while(index < control.clock.timestamps.size-1)
+            {
+                HabOutput output;
+
+
+                output.trial_num          = task.cycle+1;
+                output.id                 = habtrial.item.id;
+                output.image_filename     = test_page.faceitem.face_filename; 
+                output.sound1_filename    = habtrial.item.sound1_filename;
+                output.sound2_filename    = habtrial.item.sound2_filename;
+                output.sound3_filename    = habtrial.item.sound3_filename;
+                output.sound4_filename    = habtrial.item.sound4_filename;
+                output.sound5_filename    = habtrial.item.sound5_filename;
+                output.sound6_filename    = habtrial.item.sound6_filename;
+                output.sound7_filename    = habtrial.item.sound7_filename;
+                output.sound8_filename    = habtrial.item.sound8_filename;
+                output.sound9_filename    = habtrial.item.sound9_filename;
+                output.sound10_filename   = habtrial.item.sound10_filename;
+                output.sound11_filename   = habtrial.item.sound11_filename;
+                output.sound12_filename   = habtrial.item.sound12_filename;                                                                                
+                output.look_num           = look_counter;
+                output.looks_counted      = -9999;
+                output.duration_length_ms = control.clock.timestamps[index+1] -
+                                            control.clock.timestamps[index];              
+                hab_output_append(hab_output, output);
+
+                look_counter++;
+                index = index+2;
+            }
+
+            attention_grabber_page.cleanup();
+            test_page.cleanup();
+        }
+
+    }
+
+    Trial testtrial
+    {
+        TestItem item;
+
+        SubTrial attention_getter
+    
+        {
+            on_event:entry()
+            {   
+                attention_grabber_page.setup(movie_frames);
+                attention_grabber_page.action(this, event_time);
+            }
+        }
+
+        SubTrial test 
+        {
+            on_event:entry()
+            {
+                test_page.test_setup();
+                testtrial.item = test_items[task.cycle];
+                test_page.test_action(this, testtrial.item, event_time); 
             }
 
             on_event:exit()
@@ -76,16 +154,16 @@ Block task
             {
                 TestOutput output;
 
+
                 output.trial_num          = task.cycle+1;
-                output.id                 = trial.item.id;
+                output.id                 = testtrial.item.id;
                 output.image_filename     = test_page.faceitem.face_filename; 
-                output.sound1_filename    = trial.item.sound1_filename;
-                output.sound2_filename    = trial.item.sound2_filename;
+                output.sound1_filename    = testtrial.item.sound1_filename;
+                output.sound2_filename    = testtrial.item.sound2_filename;                                                                               
                 output.look_num           = look_counter;
                 output.looks_counted      = -9999;
                 output.duration_length_ms = control.clock.timestamps[index+1] -
-                                            control.clock.timestamps[index];
-                
+                                            control.clock.timestamps[index];              
                 output_append(test_output, output);
 
                 look_counter++;
@@ -95,6 +173,9 @@ Block task
             attention_grabber_page.cleanup();
             test_page.cleanup();
         }
+
+
+
     }
 
     bool habituation_is_reached()
@@ -143,11 +224,27 @@ Block task
         task.output_table_name         = "";
         task.movie_frames              = null;
         task.test_items                = null;
+        task.hab_items                 = null;
         task.check_for_habituation     = false;
     }
 }
 
-void setup(int output_table_number, 
+void hab_setup(int output_table_number, 
+           string output_table_name, 
+           HabItem[] hab_items,
+           FaceItem[] face_items, 
+           string[] movie_frames, 
+           bool check_for_habituation)
+{
+    task.output_table_number   = output_table_number;
+    task.output_table_name     = output_table_name;
+    task.movie_frames          = movie_frames;
+    task.hab_items             = hab_items;
+    task.face_items            = face_items;
+    task.check_for_habituation = check_for_habituation;
+}
+
+void test_setup(int output_table_number, 
            string output_table_name, 
            TestItem[] test_items,
            FaceItem[] face_items, 
@@ -158,11 +255,18 @@ void setup(int output_table_number,
     task.output_table_name     = output_table_name;
     task.movie_frames          = movie_frames;
     task.test_items            = test_items;
-    task.face_items            = face_items; 
+    task.face_items            = face_items;
     task.check_for_habituation = check_for_habituation;
 }
 
-void action(Part caller)
+void hab_action(Part caller)
+{
+    // Activate the task. When the task is done, the registered caller
+    // (c.q. the main experiment object) will automatically be signalled
+    task.enter(caller);
+}
+
+void test_action(Part caller)
 {
     // Activate the task. When the task is done, the registered caller
     // (c.q. the main experiment object) will automatically be signalled

@@ -64,7 +64,7 @@ void output_append(TestOutput[] test_output, TestOutput data)
 }
 
 // Appends one row of data to hab output table.
-void hab_output_append(TestOutput[] hab_output, HabOutput data)
+void hab_output_append(HabOutput[] hab_output, HabOutput data)
 {
     hab_output.size = test_output.size + 1;
     hab_output[hab_output.size-1] = data;
@@ -122,7 +122,7 @@ void hab_output_save(
 		"summary_" + table_file_name
 		);
 
-	test_output.size = 0; // Clear after making a summary.
+	hab_output.size = 0; // Clear after making a summary.
 }
 
 // report summary

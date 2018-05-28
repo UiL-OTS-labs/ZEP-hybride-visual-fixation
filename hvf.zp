@@ -136,17 +136,17 @@ Experiment experiment
     {
         on_event:entry()
         {
-            // table number | table name | test items | face items | 
+            // table number | table name | test items | hab_items | face items |
             // frames for movie | habituated criteria
-            test::setup(
+            test::hab_setup(
                 1, 
                 "habituation", 
-                habituation_items, 
-                face_items, 
+                hab_items, 
+                face_items,
                 movie1_frames, 
-                true
+                true 
                 );
-            test::action(this);
+            test::hab_action(this);
         }
     }
 
@@ -154,16 +154,17 @@ Experiment experiment
     {
         on_event:entry()
         {
-            // table number | table name | test items | face items | 
+            // table number | table name | test items | face items | hab_bool
             //frames for movie | habituated criteria  
-            test::setup(
+            test::test_setup(
                 1, 
                 "test", 
-                test_items, 
-                face_items, 
+                test_items,
+                face_items,
                 movie2_frames, 
-                false);
-            test::action(this);
+                false
+                );
+            test::test_action(this);
         }
     }
 
