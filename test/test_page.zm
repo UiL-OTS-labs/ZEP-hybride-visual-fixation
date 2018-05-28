@@ -2,7 +2,7 @@ import sound_direction;
 
 Page test_page
 {
-    TestItem    item;           // trial control parameters
+    TestItem    titem;           // trial control parameters
     HabItem     hitem;
     FaceItem    faceitem;       // Faces, we have 8 of them...
     //HabItem     hitem; 
@@ -165,8 +165,8 @@ Page test_page
             test_audio.abort();
 
             file_names.size = 2;
-            file_names[0] = item.sound1_filename;
-            file_names[1] = item.sound2_filename;
+            file_names[0] = titem.sound1_filename;
+            file_names[1] = titem.sound2_filename;
    
             //println (">>> audio one: " + file_names[0]);
             //println (">>> audio twe: " + file_names[1]);
@@ -250,18 +250,18 @@ Page test_page
         {
             hab_audio.abort();
             file_names.size = 12;
-            file_names[0] = item.sound1_filename;
-            file_names[1] = item.sound2_filename;
-            file_names[2] = item.sound3_filename;
-            file_names[3] = item.sound4_filename;
-            file_names[4] = item.sound5_filename;
-            file_names[5] = item.sound6_filename;
-            file_names[6] = item.sound7_filename;
-            file_names[7] = item.sound8_filename;
-            file_names[8] = item.sound9_filename;
-            file_names[9] = item.sound10_filename;
-            file_names[10] = item.sound11_filename;
-            file_names[11] = item.sound12_filename;  
+            file_names[0] = hitem.sound1_filename;
+            file_names[1] = hitem.sound2_filename;
+            file_names[2] = hitem.sound3_filename;
+            file_names[3] = hitem.sound4_filename;
+            file_names[4] = hitem.sound5_filename;
+            file_names[5] = hitem.sound6_filename;
+            file_names[6] = hitem.sound7_filename;
+            file_names[7] = hitem.sound8_filename;
+            file_names[8] = hitem.sound9_filename;
+            file_names[9] = hitem.sound10_filename;
+            file_names[10] = hitem.sound11_filename;
+            file_names[11] = hitem.sound12_filename;  
    
             //println (">>> audio one: " + file_names[0]);
             //println (">>> audio twe: " + file_names[1]);
@@ -350,7 +350,7 @@ Page test_page
 
         // Save the passed trial control parameters.
 
-        item = it;
+        hitem = it;
 
         // println(item);
         
@@ -375,7 +375,7 @@ Page test_page
 
         // Update status line on control window. Cleared in done() above.
         control.set_status(
-            string(item.id) + "  " + 
+            string(hitem.id) + "  " + 
             string(faceitem.face_filename));
     }
 
@@ -392,7 +392,7 @@ Page test_page
 
         // Save the passed trial control parameters.
 
-        item = it;
+        titem = it;
 
         // println(item);
         
@@ -417,7 +417,7 @@ Page test_page
 
         // Update status line on control window. Cleared in done() above.
         control.set_status(
-            string(item.id) + "  " + 
+            string(titem.id) + "  " + 
             string(faceitem.face_filename));
     }
 }
