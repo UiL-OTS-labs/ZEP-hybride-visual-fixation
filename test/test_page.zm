@@ -1,14 +1,10 @@
 import sound_direction;
-//import habshuffle;
 
 Page test_page
 {
     TestItem    titem;           // trial control parameters
     HabItem     hitem;
     FaceItem    faceitem;       // Faces, we have 8 of them...
-    //HabItem     hitem; 
-    //we need to check stims already used, init empty string
-    // bool        is_hab_item;
     string old_face = "";
     
     
@@ -107,8 +103,6 @@ Page test_page
     {
         string[..] file_names;
 
-        //bool is_hab_item;
-
         SoundFile clip {}
      
         SoundPlayback playback {}
@@ -131,7 +125,8 @@ Page test_page
         time play(time t, SoundDirection dir)
         {
             this.playback.device = sound_output_device;
-            this.clip.file =stimuli_dir() + "sounds/" + test_audio.file_names[0];
+            this.clip.file = stimuli_dir() + "sounds/" + 
+                             test_audio.file_names[0];
             first_to_last_shift(file_names);
 
             // mute all channels.
@@ -168,9 +163,6 @@ Page test_page
             file_names.size = 2;
             file_names[0] = titem.sound1_filename;
             file_names[1] = titem.sound2_filename;
-   
-            //println (">>> audio one: " + file_names[0]);
-            //println (">>> audio twe: " + file_names[1]);
         }
 
         void first_to_last_shift(string[] array)
@@ -398,9 +390,7 @@ Page test_page
         // Save the passed trial control parameters.
 
         titem = it;
-
-        // println(item);
-        
+      
         //and the faces separately
         set_face(); 
  
