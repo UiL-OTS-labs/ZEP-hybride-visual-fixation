@@ -202,7 +202,6 @@ Page test_page
         on_event:start()
         {
             control.show_speaker_icon(FRONT_SIDE);
-            file_names.shuffle(0, -1);
         }
 
         on_event:finish()
@@ -263,7 +262,9 @@ Page test_page
             file_names[8] = hitem.sound9_filename;
             file_names[9] = hitem.sound10_filename;
             file_names[10] = hitem.sound11_filename;
-            file_names[11] = hitem.sound12_filename;  
+            file_names[11] = hitem.sound12_filename; 
+
+            file_names.shuffle(0, -1);
    
             //println (">>> audio one: " + file_names[0]);
             //println (">>> audio twe: " + file_names[1]);
@@ -363,7 +364,9 @@ Page test_page
         tref = test_window1.show_test_page(this, tref);
 
         tref = layout.canvas.start_picture(tref, faceitem.face_filename);
+        
         hab_audio.setup();
+        
         tref = hab_audio.play(tref, SND_DIRECTION_FRONT);
 
         // control

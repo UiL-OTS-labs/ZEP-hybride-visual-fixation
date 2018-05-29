@@ -82,28 +82,30 @@ Block habtask
         {
             int index;
             int look_counter = 1;
+            string [] shuffled_audio_names = test_page.hab_audio.file_names;
+
             // The timestamps record both the stop and start time. 
             // Hence we need to parse them in pairs.
             while(index < control.clock.timestamps.size-1)
             {
                 HabOutput output;
 
-
                 output.trial_num          = habtask.cycle+1;
                 output.id                 = habtrial.item.id;
                 output.image_filename     = test_page.faceitem.face_filename; 
-                output.sound1_filename    = habtrial.item.sound1_filename;
-                output.sound2_filename    = habtrial.item.sound2_filename;
-                output.sound3_filename    = habtrial.item.sound3_filename;
-                output.sound4_filename    = habtrial.item.sound4_filename;
-                output.sound5_filename    = habtrial.item.sound5_filename;
-                output.sound6_filename    = habtrial.item.sound6_filename;
-                output.sound7_filename    = habtrial.item.sound7_filename;
-                output.sound8_filename    = habtrial.item.sound8_filename;
-                output.sound9_filename    = habtrial.item.sound9_filename;
-                output.sound10_filename   = habtrial.item.sound10_filename;
-                output.sound11_filename   = habtrial.item.sound11_filename;
-                output.sound12_filename   = habtrial.item.sound12_filename;                                                                                
+                output.sound1_filename    = shuffled_audio_names[0];
+                output.sound2_filename    = shuffled_audio_names[1];
+                output.sound3_filename    = shuffled_audio_names[2];  //habtrial.item.sound3_filename;
+                output.sound4_filename    = shuffled_audio_names[3];  //habtrial.item.sound4_filename;
+                output.sound5_filename    = shuffled_audio_names[4];  //habtrial.item.sound5_filename;
+                output.sound6_filename    = shuffled_audio_names[5];  //habtrial.item.sound5_filename;
+                output.sound7_filename    = shuffled_audio_names[6];  //habtrial.item.sound6_filename;
+                output.sound8_filename    = shuffled_audio_names[7];  //habtrial.item.sound7_filename;
+                output.sound9_filename    = shuffled_audio_names[8];  //habtrial.item.sound8_filename;
+                output.sound10_filename   = shuffled_audio_names[9];  //habtrial.item.sound9_filename;
+                output.sound11_filename   = shuffled_audio_names[10]; //habtrial.item.sound10_filename;
+                output.sound12_filename   = shuffled_audio_names[11]; //habtrial.item.sound11_filename;
+                                                                           
                 output.look_num           = look_counter;
                 output.looks_counted      = -9999;
                 output.duration_length_ms = control.clock.timestamps[index+1] -
