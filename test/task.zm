@@ -1,6 +1,6 @@
 import defs;
 import test_page;
-import habshuffle;
+//import habshuffle;
 
 import attention_grabber_page;
 import output;
@@ -27,7 +27,7 @@ Block habtask
     on_event:entry()
     {
         //shuffle_hab_items = hab_items.shuffle()
-        if (shuffle_hab_items() != OK )  terminate;
+
 
         habtask.num_cycles = hab_items.size;
         experiment.setup_response_box();
@@ -62,6 +62,7 @@ Block habtask
             on_event:entry()
             {
                 test_page.hab_setup();
+
                 habtrial.item = hab_items[habtask.cycle];
                 test_page.hab_action(this, habtrial.item, event_time); 
             }

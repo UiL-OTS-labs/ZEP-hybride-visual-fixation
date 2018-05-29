@@ -1,4 +1,5 @@
 import sound_direction;
+//import habshuffle;
 
 Page test_page
 {
@@ -201,6 +202,7 @@ Page test_page
         on_event:start()
         {
             control.show_speaker_icon(FRONT_SIDE);
+            file_names.shuffle(0, -1);
         }
 
         on_event:finish()
