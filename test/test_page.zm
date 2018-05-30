@@ -256,7 +256,7 @@ Page test_page
             file_names[10] = hitem.sound11_filename;
             file_names[11] = hitem.sound12_filename; 
 
-            file_names.shuffle(0, -1);
+            file_names.shuffle(1, -1); //we only shuffle the remaining 11 items, see .csv file examples
    
             //println (">>> audio one: " + file_names[0]);
             //println (">>> audio twe: " + file_names[1]);
