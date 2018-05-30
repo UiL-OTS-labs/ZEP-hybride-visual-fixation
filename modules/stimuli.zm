@@ -62,9 +62,27 @@ record TestItem {
     string sound2_filename;
 }
 
+record HabItem {
+
+    int id;
+    string sound1_filename;
+    string sound2_filename;
+    string sound3_filename;
+    string sound4_filename;
+    string sound5_filename;
+            
+    string sound6_filename;
+    string sound7_filename;
+    string sound8_filename;
+    string sound9_filename;
+    string sound10_filename;
+    string sound11_filename;
+    string sound12_filename; 
+}
+
 // arrays for hab and test
-TestItem[..] habituation_items;
-TestItem[..] test_items;
+HabItem[..]  hab_items;
+TestItem[..]  test_items;
 
 //record for faces?
 
@@ -82,11 +100,11 @@ FaceItem[..] face_items;
 int load_stimuli()
 {
     int status = OK;
-    if( read_csv(habituation_items, hab_csv_file_name()) != OK) {
+    if( read_hab_csv(hab_items, hab_csv_file_name()) != OK) {
         status = ERROR;
         return status;
     }
-    if( check_files(habituation_items, hab_csv_file_name()) != OK) {
+    if( check_hab_files(hab_items, hab_csv_file_name()) != OK) {
          status = ERROR;
          return status;
     }
@@ -124,6 +142,21 @@ int read_csv(TestItem[] target, string source)
     return OK;
      // Load data into test_items table.
 }
+
+int read_hab_csv(HabItem[] target, string source)
+{
+    int err = target.load(stimuli_dir() + source,
+    true,           // if true, file contains a header row
+    1);             // number of lines to skip before header and data
+    if (err) {
+        println("Trouble loading from " + source);
+        return err;         
+    }
+
+    return OK;
+     // Load data into hab_items table.
+}
+
 
 // loads in csv into the specified target
 int read_csv_face(FaceItem[] target, string source)
@@ -200,6 +233,7 @@ string hab_csv_file_name()
 {
     string vari;
     string groupid;
+    string speakerstatus;
     
     string nativeness = 
          expdb.participant.get_enum_field("contrast_native_nonnative");
@@ -235,13 +269,32 @@ string hab_csv_file_name()
     {
         println("ERROR");
     }
-        
+
+    // get single or multi speaker option
+    string speakervariant = 
+         expdb.participant.get_enum_field("speaker_multiple_single");
+
+    if (speakervariant == "multiple")
+    {
+        speakerstatus = "mspeaker";
+    }
+
+    else if (speakervariant == "single")
+    {
+        speakerstatus = "sspeaker";  
+    }
+    else 
+    {
+        println("ERROR");
+    }        
     string name =
             "hab_" +
             expdb.participant.get_enum_field("contrast_native_nonnative") + 
             "_" + 
             vari + 
-            groupid  + 
+            groupid + 
+            "_"  +
+            speakerstatus +
             ".csv";
 
     return name;
@@ -273,6 +326,70 @@ int check_files(TestItem[] target, string filename)
             target[index].sound2_filename;
         if( !file_okay(sound1_path)) status = ERROR;
         
+        index++;
+    }
+
+    return status;
+}
+
+// checks files if in TestItem are okay
+int check_hab_files(HabItem[] target, string filename)
+{
+    println("Checking existance of stimuli files for " + filename);
+
+    int status = OK;
+
+    int index = 0;
+    while(index < target.size)
+    {
+        string sound1_path = stimuli_dir() + "sounds/" + 
+            target[index].sound1_filename;
+        if( !file_okay(sound1_path)) status = ERROR;
+
+        string sound2_path = stimuli_dir() + "sounds/" + 
+            target[index].sound2_filename;
+        if( !file_okay(sound2_path)) status = ERROR;
+        
+        string sound3_path = stimuli_dir() + "sounds/" + 
+            target[index].sound3_filename;
+        if( !file_okay(sound3_path)) status = ERROR;
+
+        string sound4_path = stimuli_dir() + "sounds/" + 
+            target[index].sound4_filename;
+        if( !file_okay(sound4_path)) status = ERROR;
+
+        string sound5_path = stimuli_dir() + "sounds/" + 
+            target[index].sound5_filename;
+        if( !file_okay(sound5_path)) status = ERROR;
+
+        string sound6_path = stimuli_dir() + "sounds/" + 
+            target[index].sound6_filename;
+        if( !file_okay(sound6_path)) status = ERROR;
+        
+        string sound7_path = stimuli_dir() + "sounds/" + 
+            target[index].sound7_filename;
+        if( !file_okay(sound7_path)) status = ERROR;
+
+        string sound8_path = stimuli_dir() + "sounds/" + 
+            target[index].sound8_filename;
+        if( !file_okay(sound8_path)) status = ERROR;
+
+        string sound9_path = stimuli_dir() + "sounds/" + 
+            target[index].sound9_filename;
+        if( !file_okay(sound9_path)) status = ERROR;
+
+        string sound10_path = stimuli_dir() + "sounds/" + 
+            target[index].sound10_filename;
+        if( !file_okay(sound6_path)) status = ERROR;
+        
+        string sound11_path = stimuli_dir() + "sounds/" + 
+            target[index].sound11_filename;
+        if( !file_okay(sound7_path)) status = ERROR;
+
+        string sound12_path = stimuli_dir() + "sounds/" + 
+            target[index].sound12_filename;
+        if( !file_okay(sound12_path)) status = ERROR;
+
         index++;
     }
 
