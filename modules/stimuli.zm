@@ -93,7 +93,11 @@ record FaceItem {
 }
 
 // array for faces 
-FaceItem[..] face_items; 
+FaceItem[..] test_face_items; 
+
+
+// array for faces 
+FaceItem[..] hab_face_items; 
 
 
 
@@ -116,11 +120,19 @@ int load_stimuli()
         status = ERROR;
         return status;
     }
-    if( read_csv_face(face_items, face_csv_file_name() ) != OK) {
+    if( read_csv_hab_face(hab_face_items, hab_face_csv_file_name() ) != OK) {
         status = ERROR;
         return status;
     }
-    if( check_face_files(face_items, face_csv_file_name() ) != OK) {
+    if( read_csv_test_face(test_face_items, test_face_csv_file_name() ) != OK) {
+        status = ERROR;
+        return status;
+    }
+    if( check_hab_face_files(hab_face_items, hab_face_csv_file_name() ) != OK) {
+        status = ERROR;
+        return status;
+    }
+    if( check_test_face_files(test_face_items, test_face_csv_file_name() ) != OK) {
         status = ERROR;
         return status;
     }
@@ -159,7 +171,22 @@ int read_hab_csv(HabItem[] target, string source)
 
 
 // loads in csv into the specified target
-int read_csv_face(FaceItem[] target, string source)
+int read_csv_hab_face(FaceItem[] target, string source)
+{
+    int err = target.load(stimuli_dir() + source,
+    true,           // if true, file contains a header row
+    1);             // number of lines to skip before header and data
+    if (err) {
+        println("Trouble loading from " + source);
+        return err;         
+    }
+
+    return OK;
+     // Load data into test_items table.
+}
+
+// loads in csv into the specified target
+int read_csv_test_face(FaceItem[] target, string source)
 {
     int err = target.load(stimuli_dir() + source,
     true,           // if true, file contains a header row
@@ -302,9 +329,16 @@ string hab_csv_file_name()
 
 
 // Provides the csv file name based on participant data.
-string face_csv_file_name()
+string test_face_csv_file_name()
 {
-    string name = "faces.csv";
+    string name = "faces-test.csv";
+    return name;
+}
+
+// Provides the csv file name based on participant data.
+string hab_face_csv_file_name()
+{
+    string name = "faces-hab.csv";
     return name;
 }
 
@@ -397,7 +431,29 @@ int check_hab_files(HabItem[] target, string filename)
 }
 
 // checks files if in FaceItem are okay
-int check_face_files(FaceItem[] target, string filename)
+int check_hab_face_files(FaceItem[] target, string filename)
+{
+    println("Checking existance of stimuli files for " + filename);
+
+    int status = OK;
+
+    int index = 0;
+    while(index < target.size)
+    {
+        string image_path = stimuli_dir() + "images/" + 
+            target[index].face_filename;
+        if( !file_okay(image_path)) status = ERROR;
+
+        
+        index++;
+    }
+
+    return status;
+}
+
+
+// checks files if in FaceItem are okay
+int check_test_face_files(FaceItem[] target, string filename)
 {
     println("Checking existance of stimuli files for " + filename);
 

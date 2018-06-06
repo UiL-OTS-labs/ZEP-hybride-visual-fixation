@@ -17,10 +17,7 @@ Block habtask
     
     HabItem[] hab_items;
     
-    FaceItem[] face_items;
-
-    // println( " Test items.size" + test_items.size);
-
+    FaceItem[] hab_face_items;
 
     on_event:entry()
     {
@@ -85,7 +82,7 @@ Block habtask
 
                 output.trial_num          = habtask.cycle+1;
                 output.id                 = habtrial.item.id;
-                output.image_filename     = test_page.faceitem.face_filename; 
+                output.image_filename     = test_page.hfaceitem.face_filename; 
 
                 output.sound1_filename    = shuffled_audio_names[0];
                 output.sound2_filename    = shuffled_audio_names[1];
@@ -99,7 +96,21 @@ Block habtask
                 output.sound10_filename   = shuffled_audio_names[9];  
                 output.sound11_filename   = shuffled_audio_names[10]; 
                 output.sound12_filename   = shuffled_audio_names[11]; 
-                                                                           
+  
+
+                // output.sound1_filename    = test_page.hab_audio.hab_file_names[0];
+                // output.sound2_filename    = test_page.hab_audio.hab_file_names[1];
+                // output.sound3_filename    = test_page.hab_audio.hab_file_names[2];
+                // output.sound4_filename    = test_page.hab_audio.hab_file_names[3]; 
+                // output.sound5_filename    = test_page.hab_audio.hab_file_names[4]; 
+                // output.sound6_filename    = test_page.hab_audio.hab_file_names[5];
+                // output.sound7_filename    = test_page.hab_audio.hab_file_names[6];
+                // output.sound8_filename    = test_page.hab_audio.hab_file_names[7]; 
+                // output.sound9_filename    = test_page.hab_audio.hab_file_names[8]; 
+                // output.sound10_filename   = test_page.hab_audio.hab_file_names[9];  
+                // output.sound11_filename   = test_page.hab_audio.hab_file_names[10]; 
+                // output.sound12_filename   = test_page.hab_audio.hab_file_names[11];    
+
                 output.look_num           = look_counter;
                 output.looks_counted      = -9999;
                 output.duration_length_ms = control.clock.timestamps[index+1] -
@@ -180,7 +191,7 @@ Block testtask
 
     TestItem[] test_items;
     
-    FaceItem[] face_items;
+    FaceItem[] test_face_items;
 
 
     on_event:entry()
@@ -244,7 +255,7 @@ Block testtask
 
                 output.trial_num          = testtask.cycle+1;
                 output.id                 = testtrial.item.id;
-                output.image_filename     = test_page.faceitem.face_filename; 
+                output.image_filename     = test_page.tfaceitem.face_filename; 
                 output.sound1_filename    = testtrial.item.sound1_filename;
                 output.sound2_filename    = testtrial.item.sound2_filename;                                                                               
                 output.look_num           = look_counter;
@@ -315,7 +326,7 @@ Block testtask
 void hab_setup(int output_table_number, 
            string output_table_name, 
            HabItem[] hab_items,
-           FaceItem[] face_items, 
+           FaceItem[] hab_face_items, 
            string[] movie_frames, 
            bool check_for_habituation)
 {
@@ -323,14 +334,14 @@ void hab_setup(int output_table_number,
     habtask.output_table_name     = output_table_name;
     habtask.movie_frames          = movie_frames;
     habtask.hab_items             = hab_items;
-    habtask.face_items            = face_items;
+    habtask.hab_face_items        = hab_face_items;
     habtask.check_for_habituation = check_for_habituation;
 }
 
 void test_setup(int output_table_number, 
            string output_table_name, 
            TestItem[] test_items,
-           FaceItem[] face_items, 
+           FaceItem[] test_face_items, 
            string[] movie_frames, 
            bool check_for_habituation)
 {
@@ -338,7 +349,7 @@ void test_setup(int output_table_number,
     testtask.output_table_name     = output_table_name;
     testtask.movie_frames          = movie_frames;
     testtask.test_items            = test_items;
-    testtask.face_items            = face_items;
+    testtask.test_face_items       = test_face_items;
     testtask.check_for_habituation = check_for_habituation;
 }
 

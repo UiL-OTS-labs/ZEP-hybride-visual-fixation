@@ -15,9 +15,9 @@ HISTORY:
 
 
 // Shuffles test_items table (no restrictions on item order).
-int shuffle_hab_items()
-{
-    hab_audio.file_names.shuffle(0, -1);
+// int shuffle_hab_items()
+// {
+//     hab_audio.file_names.shuffle(0, -1);
 
-    return OK;
-}
+//     return OK;
+// }

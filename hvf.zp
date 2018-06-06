@@ -139,10 +139,10 @@ Experiment experiment
             // table number | table name | test items | hab_items | face items |
             // frames for movie | habituated criteria
             test::hab_setup(
-                1, 
+                2, 
                 "habituation", 
                 hab_items, 
-                face_items,
+                hab_face_items,
                 movie1_frames, 
                 true 
                 );
@@ -157,10 +157,10 @@ Experiment experiment
             // table number | table name | test items | face items | hab_bool
             //frames for movie | habituated criteria  
             test::test_setup(
-                1, 
+                3, 
                 "test", 
                 test_items,
-                face_items,
+                test_face_items,
                 movie2_frames, 
                 false
                 );
@@ -173,7 +173,7 @@ Experiment experiment
         on_event:entry()
         {
             // table number | output table name | frames for movie
-            attention_test::setup(1, "post_test_attention", movie1_frames);
+            attention_test::setup(4, "post_test_attention", movie1_frames);
             attention_test::action(this);
         }
         on_event:exit()

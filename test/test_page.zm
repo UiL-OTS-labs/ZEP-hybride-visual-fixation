@@ -4,9 +4,12 @@ Page test_page
 {
     TestItem    titem;           // trial control parameters
     HabItem     hitem;
-    FaceItem    faceitem;       // Faces, we have 8 of them...
-    string old_face = "";
     
+    FaceItem    hfaceitem;       // Faces, we have 4 of them...
+    FaceItem    tfaceitem;       // And 4 for tests
+
+    string hab_old_face = "";
+    string test_old_face = "";
     
     int token_played_counter;
 
@@ -329,20 +332,33 @@ Page test_page
     }
 
     // select the picture to be used
-    void set_face() 
+    void set_hab_face() 
     { 
         // select one    
-        int n = random(0, face_items.size - 1);
-        while (face_items[n].face_filename == old_face)
+        int n = random(0, hab_face_items.size - 1);
+        println(hab_face_items.size);
+        while (hab_face_items[n].face_filename == hab_old_face)
         {
-            n = random(0, face_items.size - 1);         
+            n = random(0, hab_face_items.size - 1);         
         }
-        faceitem = face_items[n];
-        old_face = face_items[n].face_filename;
+        hfaceitem = hab_face_items[n];
+        hab_old_face = hab_face_items[n].face_filename;
     }
                 
-                 
-            
+    // select the picture to be used
+    void set_test_face() 
+    { 
+        // select one    
+        int n = random(0, test_face_items.size - 1);
+        println(test_face_items.size);
+        while (test_face_items[n].face_filename == test_old_face)
+        {
+            n = random(0, test_face_items.size - 1);         
+        }
+        tfaceitem = test_face_items[n];
+        test_old_face = test_face_items[n].face_filename;
+    }
+                              
     // Starts a hab trial.
     void hab_action(Object caller, HabItem it, time tref)
     {
@@ -360,12 +376,12 @@ Page test_page
         // println(item);
         
         //and the faces separately
-        set_face(); 
+        set_hab_face(); 
  
         // Show this page (if not yet done) and make tref the trial start time.
         tref = test_window1.show_test_page(this, tref);
 
-        tref = layout.canvas.start_picture(tref, faceitem.face_filename);
+        tref = layout.canvas.start_picture(tref, hfaceitem.face_filename);
         
         hab_audio.setup();
         
@@ -379,13 +395,11 @@ Page test_page
         // Remember who to signal when the trial is over.
         target = caller;
 
-
         // Update status line on control window. Cleared in done() above.
         control.set_status(
             string(hitem.id) + "  " + 
-            string(faceitem.face_filename));
+            string(hfaceitem.face_filename));
     }
-
 
         // Starts a hab trial.
     void test_action(Object caller, TestItem it, time tref)
@@ -402,12 +416,12 @@ Page test_page
         titem = it;
       
         //and the faces separately
-        set_face(); 
+        set_test_face(); 
  
         // Show this page (if not yet done) and make tref the trial start time.
         tref = test_window1.show_test_page(this, tref);
 
-        tref = layout.canvas.start_picture(tref, faceitem.face_filename);
+        tref = layout.canvas.start_picture(tref, tfaceitem.face_filename);
         test_audio.setup();
         tref = test_audio.play(tref, SND_DIRECTION_FRONT);
 
@@ -423,6 +437,6 @@ Page test_page
         // Update status line on control window. Cleared in done() above.
         control.set_status(
             string(titem.id) + "  " + 
-            string(faceitem.face_filename));
+            string(tfaceitem.face_filename));
     }
 }
