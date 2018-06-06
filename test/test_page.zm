@@ -188,6 +188,8 @@ Page test_page
     {
         string[..] hab_file_names;
 
+        int snd_index = 0;
+
         //bool is_hab_item;
 
         SoundFile clip {}
@@ -212,8 +214,13 @@ Page test_page
         time play(time t, SoundDirection dir)
         {
             this.playback.device = sound_output_device;
-            this.clip.file =stimuli_dir() + "sounds/" + hab_audio.hab_file_names[0];
-            first_to_last_shift(hab_file_names);
+            if (snd_index >= hab_file_names.size)
+                print_error("Oops, trying to present a file greater than "
+                    "the number of hab_face_items.size"
+                    );
+            this.clip.file =stimuli_dir() + "sounds/" +
+                hab_file_names[snd_index % hab_file_names.size];
+            snd_index++;
 
             // mute all channels.
             playback.set_scaling(0.0);
@@ -244,6 +251,7 @@ Page test_page
 
         void setup()
         {
+            snd_index = 0;
             hab_audio.abort();
             hab_file_names.size = 12;
             hab_file_names[0] = hitem.sound1_filename;
@@ -274,21 +282,6 @@ Page test_page
             println (">>> audio10: " + hab_file_names[10]);
             println (">>> audio11: " + hab_file_names[11]);            
         }
-
-        void first_to_last_shift(string[] array)
-        {
-            int index;
-            string first = array[index];
-
-            while(index < array.size-1)
-            {
-                array[index] = array[index+1];
-                index++;
-            }
-
-            array[array.size-1] = first;
-        }
-        
     }
 
     // Aborts any ongoing activity on this page and signals the initiator
