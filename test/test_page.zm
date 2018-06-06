@@ -183,7 +183,7 @@ Page test_page
  
   SoundChain hab_audio
     {
-        string[..] file_names;
+        string[..] hab_file_names;
 
         //bool is_hab_item;
 
@@ -209,8 +209,8 @@ Page test_page
         time play(time t, SoundDirection dir)
         {
             this.playback.device = sound_output_device;
-            this.clip.file =stimuli_dir() + "sounds/" + hab_audio.file_names[0];
-            first_to_last_shift(file_names);
+            this.clip.file =stimuli_dir() + "sounds/" + hab_audio.hab_file_names[0];
+            first_to_last_shift(hab_file_names);
 
             // mute all channels.
             playback.set_scaling(0.0);
@@ -242,24 +242,34 @@ Page test_page
         void setup()
         {
             hab_audio.abort();
-            file_names.size = 12;
-            file_names[0] = hitem.sound1_filename;
-            file_names[1] = hitem.sound2_filename;
-            file_names[2] = hitem.sound3_filename;
-            file_names[3] = hitem.sound4_filename;
-            file_names[4] = hitem.sound5_filename;
-            file_names[5] = hitem.sound6_filename;
-            file_names[6] = hitem.sound7_filename;
-            file_names[7] = hitem.sound8_filename;
-            file_names[8] = hitem.sound9_filename;
-            file_names[9] = hitem.sound10_filename;
-            file_names[10] = hitem.sound11_filename;
-            file_names[11] = hitem.sound12_filename; 
+            hab_file_names.size = 12;
+            hab_file_names[0] = hitem.sound1_filename;
+            hab_file_names[1] = hitem.sound2_filename;
+            hab_file_names[2] = hitem.sound3_filename;
+            hab_file_names[3] = hitem.sound4_filename;
+            hab_file_names[4] = hitem.sound5_filename;
+            hab_file_names[5] = hitem.sound6_filename;
+            hab_file_names[6] = hitem.sound7_filename;
+            hab_file_names[7] = hitem.sound8_filename;
+            hab_file_names[8] = hitem.sound9_filename;
+            hab_file_names[9] = hitem.sound10_filename;
+            hab_file_names[10] = hitem.sound11_filename;
+            hab_file_names[11] = hitem.sound12_filename; 
 
-            file_names.shuffle(1, -1); //we only shuffle the remaining 11 items, see .csv file examples
+            hab_file_names.shuffle(1, -1); //we only shuffle the remaining 11 items, see .csv file examples
    
-            //println (">>> audio one: " + file_names[0]);
-            //println (">>> audio twe: " + file_names[1]);
+            println (">>> audio 0: " + hab_file_names[0]);
+            println (">>> audio 1: " + hab_file_names[1]);
+            println (">>> audio 2: " + hab_file_names[2]);
+            println (">>> audio 3: " + hab_file_names[3]);            
+            println (">>> audio 4: " + hab_file_names[4]);
+            println (">>> audio 5: " + hab_file_names[5]);
+            println (">>> audio 6: " + hab_file_names[6]);
+            println (">>> audio 7: " + hab_file_names[7]);
+            println (">>> audio 8: " + hab_file_names[8]);
+            println (">>> audio 9: " + hab_file_names[9]);
+            println (">>> audio10: " + hab_file_names[10]);
+            println (">>> audio11: " + hab_file_names[11]);            
         }
 
         void first_to_last_shift(string[] array)

@@ -75,7 +75,7 @@ Block habtask
             int index;
             int look_counter = 1;
             //reference the test_page array
-            string [] shuffled_audio_names = test_page.hab_audio.file_names;
+            string [] shuffled_audio_names = test_page.hab_audio.hab_file_names;
 
             // The timestamps record both the stop and start time. 
             // Hence we need to parse them in pairs.
@@ -86,6 +86,7 @@ Block habtask
                 output.trial_num          = habtask.cycle+1;
                 output.id                 = habtrial.item.id;
                 output.image_filename     = test_page.faceitem.face_filename; 
+
                 output.sound1_filename    = shuffled_audio_names[0];
                 output.sound2_filename    = shuffled_audio_names[1];
                 output.sound3_filename    = shuffled_audio_names[2];
@@ -159,7 +160,7 @@ Block habtask
         habtask.output_table_number       = -1;
         habtask.output_table_name         = "";
         habtask.movie_frames              = null;
-        habtask.hab_items                = null;
+        habtask.hab_items                 = null;
         habtask.check_for_habituation     = false;
     }
 }
