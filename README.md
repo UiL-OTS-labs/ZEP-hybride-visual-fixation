@@ -41,9 +41,9 @@ mean ('feep' as example):
 	'feep', /fe:p/
 	- Two tokens in a trial could thus be different 'versions' based upon
 	either/or/both aspects: in this case; speaker and recorded 'take'.
-	- (Even if two clearly different types are in a tokentuple (/fe:p/ by
+	- Even if two clearly different types are in a tokentuple (/fe:p/ by
 	speaker one, /fa:p/ by speaker two), people tend to refer to them **both**
-	as tokens (and they would be right). This tends to become confusing.)
+	as tokens (and they would be right). This tends to be confusing.
 
 - **Token sequence**: any 'row' of tokens that defines a unique unit of a
  trial. Currently, only within the habituation phase, a token sequence input 
@@ -137,7 +137,7 @@ Speaker*speakerID*\_*type*\_*token*
 eg.
 
 	'Speaker1_faap_1.wav' -------> The first token by speaker 1 for type 'faap'
-	'SpeakerJ_sEn_23.wav' -------> The 23d token by speaker Jfor type 'sEn'
+	'SpeakerJ_sEn_23.wav' -------> The 23d token by speaker J for type 'sEn'
 
 
 This way, sounds and coding of sounds is better identifiable at a human **and** 
@@ -151,12 +151,12 @@ For brevity, let's truncate the following options for stimulus names, first
 considering a habituation phase in which 12 recordings of the same type have 
 been made by a single speaker:
 
-Speaker1_feep_1.wav
-Speaker1_feep_2.wav
-...
-Speaker1_feep_12.wav
+Speaker1_feep_1.wav  
+Speaker1_feep_2.wav  
+...  
+Speaker1_feep_12.wav  
 
-and coder it in s table as:
+and coded in table from as:
 
 s1-t1
 s1-t2
@@ -185,17 +185,18 @@ id |   s1    |  s2     | s3     |  s4    |  s5    |  s6    |   s7    |  s8   |  
 
 For the multiple speaker habituation, the structure would be:
 
-Speaker1_feep_1.wav
-Speaker2_feep_1.wav
-...
-Speaker12_feep_1.wav
+Speaker1_feep_1.wav  
+Speaker2_feep_1.wav  
+...  
+Speaker12_feep_1.wav  
 
-and coder it in s table as:
+and coded in table from as:
 
-s1-t1
-s2-t1
-...
-s12-s1
+s1-t1  
+s2-t1  
+...  
+s12-s1  
+
 
 The input file for a multiple speaker habituation would then have the following 
 structure:

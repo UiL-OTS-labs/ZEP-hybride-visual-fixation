@@ -214,11 +214,13 @@ Page test_page
         time play(time t, SoundDirection dir)
         {
             this.playback.device = sound_output_device;
-            if (snd_index >= hab_file_names.size)
-                print_error("Oops, trying to present a file greater than "
-                    "the number of hab_face_items.size"
-                    );
-            this.clip.file =stimuli_dir() + "sounds/" +
+            // if (snd_index >= hab_file_names.size)
+                // print_error("Oops, trying to present a file greater than "
+                //     "the number of hab_face_items.size\n");
+                // {
+                //     snd_index = 0;
+                // }
+            this.clip.file = stimuli_dir() + "sounds/" +
                 hab_file_names[snd_index % hab_file_names.size];
             snd_index++;
 
@@ -254,6 +256,7 @@ Page test_page
             snd_index = 0;
             hab_audio.abort();
             hab_file_names.size = 12;
+
             hab_file_names[0] = hitem.sound1_filename;
             hab_file_names[1] = hitem.sound2_filename;
             hab_file_names[2] = hitem.sound3_filename;
@@ -269,18 +272,18 @@ Page test_page
 
             hab_file_names.shuffle(1, -1); //we only shuffle the remaining 11 items, see .csv file examples
    
-            println (">>> audio 0: " + hab_file_names[0]);
-            println (">>> audio 1: " + hab_file_names[1]);
-            println (">>> audio 2: " + hab_file_names[2]);
-            println (">>> audio 3: " + hab_file_names[3]);            
-            println (">>> audio 4: " + hab_file_names[4]);
-            println (">>> audio 5: " + hab_file_names[5]);
-            println (">>> audio 6: " + hab_file_names[6]);
-            println (">>> audio 7: " + hab_file_names[7]);
-            println (">>> audio 8: " + hab_file_names[8]);
-            println (">>> audio 9: " + hab_file_names[9]);
-            println (">>> audio10: " + hab_file_names[10]);
-            println (">>> audio11: " + hab_file_names[11]);            
+            // println (">>> audio 0: " + hab_file_names[0]);
+            // println (">>> audio 1: " + hab_file_names[1]);
+            // println (">>> audio 2: " + hab_file_names[2]);
+            // println (">>> audio 3: " + hab_file_names[3]);            
+            // println (">>> audio 4: " + hab_file_names[4]);
+            // println (">>> audio 5: " + hab_file_names[5]);
+            // println (">>> audio 6: " + hab_file_names[6]);
+            // println (">>> audio 7: " + hab_file_names[7]);
+            // println (">>> audio 8: " + hab_file_names[8]);
+            // println (">>> audio 9: " + hab_file_names[9]);
+            // println (">>> audio10: " + hab_file_names[10]);
+            // println (">>> audio11: " + hab_file_names[11]);            
         }
     }
 
@@ -328,11 +331,11 @@ Page test_page
     void set_hab_face() 
     { 
         // select one    
-        int n = random(0, hab_face_items.size - 1);
+        int n = random(0, hab_face_items.size );
         println(hab_face_items.size);
         while (hab_face_items[n].face_filename == hab_old_face)
         {
-            n = random(0, hab_face_items.size - 1);         
+            n = random(0, hab_face_items.size);         
         }
         hfaceitem = hab_face_items[n];
         hab_old_face = hab_face_items[n].face_filename;
@@ -342,11 +345,11 @@ Page test_page
     void set_test_face() 
     { 
         // select one    
-        int n = random(0, test_face_items.size - 1);
+        int n = random(0, test_face_items.size);
         println(test_face_items.size);
         while (test_face_items[n].face_filename == test_old_face)
         {
-            n = random(0, test_face_items.size - 1);         
+            n = random(0, test_face_items.size);         
         }
         tfaceitem = test_face_items[n];
         test_old_face = test_face_items[n].face_filename;
@@ -366,8 +369,6 @@ Page test_page
 
         hitem = it;
 
-        // println(item);
-        
         //and the faces separately
         set_hab_face(); 
  
